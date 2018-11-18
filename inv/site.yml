@@ -1,0 +1,16 @@
+##
+## Otto is an Ubuntu 18 server, with 'apt-get python install' and ssh keys set
+##
+---
+- hosts: otto
+  remote_user: root
+  tasks:
+
+  - git:
+      repo: ssh://git@github.com/mobilerobot-io/"{{ item }}"
+      dest: /srv/www/"{{ item }}"
+      update: yes
+    loop:
+      - bitalian.us
+      - clowdops.net
+      - mobilerobot.io

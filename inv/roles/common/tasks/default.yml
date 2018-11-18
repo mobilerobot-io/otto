@@ -1,0 +1,13 @@
+---
+- name: NGINX make sure we have the latest version
+  apt:
+    name: nginx
+    state: latest
+    become: yes
+
+- name: Start NGINX
+  service:
+    name: nginx
+    state: started
+  become: yes
+  
