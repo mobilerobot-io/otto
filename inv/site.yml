@@ -3,13 +3,13 @@
 ##
 ---
 - hosts: otto
-  remote_user: root
   tasks:
 
   - git:
-      repo: ssh://git@github.com/mobilerobot-io/"{{ item }}"
-      dest: /srv/www/"{{ item }}"
+      repo: git@github.com:mobilerobot-io/clowdops.git
+      dest: /srv/www/
       update: yes
+      clone: yes
     loop:
       - bitalian.us
       - clowdops.net

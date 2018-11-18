@@ -1,9 +1,7 @@
 package main
 
-/*
-
-The GoDaemon (an unfortunant acronym, the name will need to be changed, eventually)
-
+/* Serve up our services with srv.
+   - static file server
 */
 import (
 	"flag"
@@ -29,11 +27,12 @@ func main() {
 	flag.Parse()
 	r := mux.NewRouter()
 
+	log.Infoln("Serving static sites ")
 	for _, site := range getSites() {
 		path := dir + site
 		s := "/" + site
 
-		log.Printf("dir: %s ~ site: %s ~ path %s ~ s %s", dir, site, path, s)
+		log.Infof("\t%-10s %s", site, path)
 		r.PathPrefix(s).Handler(http.StripPrefix(s, http.FileServer(http.Dir(path))))
 	}
 
@@ -48,6 +47,9 @@ func main() {
 
 }
 
+// getSites will return a list of site names depending on the how the
+// command was invoked: -dir <dir> will cause the program to scan the
+// given directory and serve all subdirectories as a static website.
 func getSites() (sites []string) {
 	if dir == "" {
 		sites = flag.Args()
