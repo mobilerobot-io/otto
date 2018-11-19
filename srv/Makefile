@@ -1,3 +1,5 @@
+cmd = srv
+
 build:
 	go build
 
@@ -6,4 +8,4 @@ clean:
 	rm *~
 
 run:
-	go build -v && ./god 
+	go build -v && $(cmd)

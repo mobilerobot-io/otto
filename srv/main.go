@@ -20,7 +20,7 @@ var (
 
 func init() {
 	flag.StringVar(&dir, "dir", "/srv/www/", "Serve up a page or site from directory")
-	flag.StringVar(&addr, "addr", "", "Port and local address to bind defualt :80")
+	flag.StringVar(&addr, "addr", ":80", "Port and local address to bind defualt :80")
 }
 
 func main() {
@@ -32,8 +32,9 @@ func main() {
 		path := dir + site
 		s := "/" + site
 
-		log.Infof("\t%-10s %s", site, path)
-		r.PathPrefix(s).Handler(http.StripPrefix(s, http.FileServer(http.Dir(path))))
+		sr := r.Host(site).Subrouter()
+		log.Infof("\t%-10s %s created subrouter", site, path)
+		sr.PathPrefix(s).Handler(http.StripPrefix(s, http.FileServer(http.Dir(path))))
 	}
 
 	srv := &http.Server{
