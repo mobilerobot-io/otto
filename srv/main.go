@@ -20,7 +20,7 @@ var (
 
 func init() {
 	flag.StringVar(&dir, "dir", "/srv/www/", "Serve up a page or site from directory")
-	flag.StringVar(&addr, "addr", ":4343", "Port and local address to bind to")
+	flag.StringVar(&addr, "addr", "", "Port and local address to bind defualt :80")
 }
 
 func main() {
