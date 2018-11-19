@@ -8,4 +8,4 @@ clean:
 	rm *~
 
 run:
-	go build -v && $(cmd)
+	go build -v && ./$(cmd)

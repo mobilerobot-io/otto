@@ -5,6 +5,7 @@ package main
 */
 import (
 	"flag"
+	"fmt"
 	"io/ioutil"
 
 	"net/http"
@@ -30,12 +31,14 @@ func main() {
 	log.Infoln("Serving static sites ")
 	for _, site := range getSites() {
 		path := dir + site
-		s := "/" + site
+		//s := "/" + site
 
-		sr := r.Host(site).Subrouter()
 		log.Infof("\t%-10s %s created subrouter", site, path)
-		sr.PathPrefix(s).Handler(http.StripPrefix(s, http.FileServer(http.Dir(path))))
+		sr := r.Host(site).Subrouter()
+		sr.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(path))))
 	}
+
+	fmt.Printf("routes %+v\n", r)
 
 	srv := &http.Server{
 		Handler: r,
