@@ -14,3 +14,4 @@ srv/srv
 
 # Rusty added
 *~
+.terraform
