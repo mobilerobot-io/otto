@@ -1,0 +1,3 @@
+graph "public" {
+  tpl -- spec -- I;
+}

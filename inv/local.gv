@@ -5,5 +5,4 @@ digraph "home" {
 	spec2 -- tpl-w -- { o58 tpl-g o53 o6n2 };
 
 	tpl-g -- { wx gx vizio };
-
 }
