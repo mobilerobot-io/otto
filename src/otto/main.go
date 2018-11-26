@@ -56,11 +56,7 @@ func GetDomains() *dom.Domains {
 		}
 
 		for _, dom := range domains.Domains() {
-			if ns := dom.Nameservers(); ns != nil && len(ns) > 0 {
-				for _, h := range ns {
-					fmt.Printf("ns %+v", h)
-				}
-			}
+			dom.Nameservers()
 		}
 	}
 	return domains
@@ -68,9 +64,12 @@ func GetDomains() *dom.Domains {
 
 // write domains to writer
 func listDomains(wr io.Writer, doms *dom.Domains) {
-	for _, dom := range doms.Domains() {
-		fmt.Fprintln(wr, dom.String()) // dom.String()
-	}
+	fmt.Fprintln(wr, doms)
+	/*
+		for _, dom := range doms.Domains() {
+			fmt.Fprintln(wr, dom.String()) // dom.String()
+		}
+	*/
 }
 
 /*

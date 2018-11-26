@@ -62,7 +62,7 @@ func (doms *Domains) Domains() map[string]*Domain {
 // from the original response.
 func (doms *Domains) Save() error {
 	config := otto.GetConfig()
-	fname := config.Basedir + "data/domains.json"
+	fname := config.Basedir + "/data/domains.json"
 
 	if len(doms.dommap) < 1 {
 		log.Infoln("No domains to save returning")
