@@ -3,18 +3,13 @@
 This is OttO, otto is responsible for managing and monitoring a
 _network of hosts_ that make up a _site_ or _application_.
 
-To that end, there are a number of disconnected resources that need to
-be cordinated to establish a success.
-
-specifc networks assets (hosts, VMs, disks, etc.) using the popular
-tools terraform and ansible.
-
 Otto manages the following scenarios
 
 1. Inventory of online resources
-1. Provision site/webapp infrastructure
+1. Provision resources for applications with Terraform
 2. Configuration Management with Ansible
-3. Site / Application monitoring / Alerts / Logs
+3. Site / Application monitoring with ELK stack, influxdb and
+   prometheus 
 4. Dashboard to insights
 
 ## Sections
@@ -49,4 +44,15 @@ abstraction.
    afford
 6. Scalable and elastic ~ grows exactly how you do
 
+## Parallelize and Democratize Development
 
+This model allows different people and organizations to take ownership
+of various parts of a bigger system.  Loosley connected interfaces
+provide for a tremendous amount of flexibility amoung different parts
+of an organization, or across organizations even.
+
+### Larger Application into Microservices
+
+Each microservice can be responsible for provisioning its own
+infrastructure and customizing accordingly, yet still stick to project
+patterns and conventions for transferability and reusability.
