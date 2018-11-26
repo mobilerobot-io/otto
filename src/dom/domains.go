@@ -70,7 +70,7 @@ func (doms *Domains) Save() error {
 	}
 
 	log.Infof("Saving %d domains to %s\n", len(doms.dommap), fname)
-	jbuf, err := json.Marshal(doms.dommap)
+	jbuf, err := json.Marshal(doms)
 	fatalIfError(err)
 
 	fi, err := os.Create(fname)
@@ -122,21 +122,23 @@ func ncFetchDomains() *Domains {
 }
 
 // readDomains gets our domain list from a saved file somewhere
-func readDomains() (domains *Domains) {
+func readDomains() *Domains {
 	config := otto.GetConfig()
 
 	fname := config.Basedir + "/data/domains.json"
+
+	log.Infof("Reading domains %s ...\n", fname)
 	jbuf, err := ioutil.ReadFile(fname)
 	if err != nil {
 		// it is ok if we do not have a domains file ...
 		log.Infoln(err)
 		return nil
 	}
-	fatalIfError(err)
 
+	var domains Domains
 	err = json.Unmarshal(jbuf, &domains)
 	fatalIfError(err)
-	return domains
+	return &domains
 }
 
 func fatalIfError(err error) {

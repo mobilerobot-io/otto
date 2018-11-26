@@ -1,6 +1,7 @@
 package dom
 
 import (
+	"fmt"
 	"net"
 
 	namecheap "github.com/rustyeddy/go-namecheap"
@@ -50,6 +51,9 @@ func (d *Domain) Provider() string {
 }
 
 func (d *Domain) String() (s string) {
-	s = "domain " + d.provider
-	return s
+	nstr := ""
+	for _, ns := range d.Nameservers() {
+		nstr = nstr + ns.Host
+	}
+	return fmt.Sprintf("%s NS: [%s]", d.Name, nstr)
 }

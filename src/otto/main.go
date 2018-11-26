@@ -32,7 +32,7 @@ func main() {
 	switch args[0] {
 	case "domains":
 		doms := GetDomains()
-		listDomains(wr, doms)
+		printDomains(wr, doms)
 	case "sites":
 		//listSites(wr, sites)
 	default:
@@ -63,26 +63,13 @@ func GetDomains() *dom.Domains {
 }
 
 // write domains to writer
-func listDomains(wr io.Writer, doms *dom.Domains) {
-	fmt.Fprintln(wr, doms)
-	/*
-		for _, dom := range doms.Domains() {
-			fmt.Fprintln(wr, dom.String()) // dom.String()
-		}
-	*/
-}
-
-/*
-func GetSites() (s *Sites) {
-	return s
-}
-
-func ListSites(wr io.Writer, sites []*Sites) {
-	for _, site := range sites {
-		fmt.Fprintln(wr, site.String())
+func printDomains(wr io.Writer, doms *dom.Domains) {
+	fmt.Fprintln(wr, "Domains ... ")
+	for n, dom := range doms.Domains() {
+		fmt.Fprintf(wr, "%s -> %+v\n", n, dom)
 	}
 }
-*/
+
 func panicIfError(err error) {
 	if err != nil {
 		panic(err)
