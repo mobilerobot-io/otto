@@ -48,19 +48,19 @@ func creds() (u, t, v string) {
 
 // fetchDomains will grab our domains from the provider,
 // namecheap in our case
-func ncDomains() *Domains {
+func ncDomains() *DomainManager {
 	// Get a list of your domains
 	cli := getClient()
 	ncdoms, err := cli.DomainsGetList()
 	fatalIfError(err)
 
-	dlist := &Domains{
+	dlist := &DomainManager{
 		nclist: ncdoms,
 		dommap: make(map[string]Domain),
 		ids:    make(map[int]*Domain),
 	}
 
-	// Create a list of otto.Domains form namecheap.Domains
+	// Create a list of otto.DomainManager form namecheap.Domains
 	for _, ncdom := range ncdoms {
 		dom, err := DomainFromNC(ncdom)
 		fatalIfError(err)

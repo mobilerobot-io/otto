@@ -12,31 +12,35 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+type DomainListReader interface {
+	Domains() *DomainManager
+}
+
 // DomainList represents a list of domains.  We are keeping both the
 // list from namecheap for now, along with a list converted into
 // our universal format.  Along with an index of ids.
-type Domains struct {
+type DomainManager struct {
 	nclist []namecheap.DomainGetListResult // namecheap domain list
 	dommap map[string]Domain               // domain
 	ids    map[int]*Domain                 // id map
 }
 
 // GetDomains will get the local cache if it exists,
-func GetDomains() (doms *Domains) {
-
+func GetDomains() (doms *DomainManager) {
 	// These are stored in as the origin response from namecheap
 	// wrapped in our own structure adding a little meta data to
 	// give the object some context
-	doms = readDomains()
+	if doms = readDomains(); doms == nil {
+		doms = FetchDomains()
+	}
 	return doms
 }
 
-func FetchDomains() (doms *Domains) {
-	doms = ncDomains()
-	return doms
+func FetchDomains() (doms *DomainManager) {
+	return ncDomains()
 }
 
-func (doms *Domains) Domain(name string) (dom Domain, found bool) {
+func (doms *DomainManager) Domain(name string) (dom Domain, found bool) {
 	fatalIfNil(doms.dommap)
 	if dom, ex := doms.dommap[name]; ex {
 		return dom, ex
@@ -44,7 +48,7 @@ func (doms *Domains) Domain(name string) (dom Domain, found bool) {
 	return dom, true
 }
 
-func (doms *Domains) Domains() map[string]Domain {
+func (doms *DomainManager) Domains() map[string]Domain {
 	if doms.dommap == nil {
 		doms.dommap = make(map[string]Domain)
 		doms.ids = make(map[int]*Domain)
@@ -61,7 +65,7 @@ func (doms *Domains) Domains() map[string]Domain {
 
 // Save will save the cached namecheap response, we can build indexes
 // from the original response.
-func (doms *Domains) Save() error {
+func (doms *DomainManager) Save() error {
 	config := otto.GetConfig()
 	fname := config.Basedir + "/data/domains.json"
 
@@ -84,11 +88,11 @@ func (doms *Domains) Save() error {
 	return nil
 }
 
-func (doms *Domains) Output(w io.Writer) {
+func (doms *DomainManager) Output(w io.Writer) {
 	doms.Text(w)
 }
 
-func (doms *Domains) Text(w io.Writer) {
+func (doms *DomainManager) Text(w io.Writer) {
 	fmt.Fprintf(w, "Domains...\n")
 	for _, domain := range doms.dommap {
 		fmt.Fprintf(w, "\t%s\t%d\n", domain.Name, domain.ID)
@@ -96,7 +100,7 @@ func (doms *Domains) Text(w io.Writer) {
 }
 
 // readDomains gets our domain list from a saved file somewhere
-func readDomains() *Domains {
+func readDomains() *DomainManager {
 	config := otto.GetConfig()
 
 	fname := config.Basedir + "/data/domains.json"
@@ -109,7 +113,7 @@ func readDomains() *Domains {
 		return nil
 	}
 
-	var domains Domains
+	var domains DomainManager
 	err = json.Unmarshal(jbuf, &domains)
 	fatalIfError(err)
 	return &domains
