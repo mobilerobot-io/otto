@@ -1,7 +1,0 @@
----
-- hosts: dev
-  remote_user: root
-  tasks:
-    - name: test connection
-      ping:
-      remote_user: rusty

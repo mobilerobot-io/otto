@@ -1,0 +1,8 @@
+---
+- hosts: dev
+  remote_user: root
+  roles:
+    - common
+    - debian
+    - nginx
+      

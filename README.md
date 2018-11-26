@@ -1,10 +1,16 @@
 # otto
 
-Otto will be responsible for 
+This is OttO, otto is responsible for managing and monitoring a
+specifc networks assets (hosts, VMs, disks, etc.) using the popular
+tools terraform and ansible.
 
-1. Maintaining an inventory of online resources[1]
-2. Provision and Configuration management of said inventory
-3. Monitor, Operate and Optimize environment
+Otto manages the following scenarios
 
-At this point, this repository is a gather of tools and utilities
-because I'm not 100% sure how this problem will be solved.
+1. Inventory of online resources
+1. Provision site/webapp infrastructure
+2. Configuration Management with Ansible
+3. Site / Application monitoring / Alerts / Logs
+4. Dashboard to insights
+
+
+

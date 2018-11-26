@@ -1,4 +1,7 @@
 ---
+- name: Add user otto
+  user:
+
 - name: NGINX make sure we have the latest version
   apt:
     name: nginx
