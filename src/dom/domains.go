@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"os"
 
+	namecheap "github.com/billputer/go-namecheap"
 	"github.com/mobilerobot-io/otto"
-	"github.com/rustyeddy/go-namecheap"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -32,7 +32,7 @@ func GetDomains() (doms *Domains) {
 }
 
 func FetchDomains() (doms *Domains) {
-	doms = ncFetchDomains()
+	doms = ncDomains()
 	return doms
 }
 
@@ -93,33 +93,6 @@ func (doms *Domains) Text(w io.Writer) {
 	for _, domain := range doms.dommap {
 		fmt.Fprintf(w, "\t%s\t%d\n", domain.Name, domain.ID)
 	}
-}
-
-// Fetch and read domains
-// ====================================================================
-
-// fetchDomains will grab our domains from the provider,
-// namecheap in our case
-func ncFetchDomains() *Domains {
-	// Get a list of your domains
-
-	client := getClient()
-	ncdoms, err := client.DomainsGetList()
-	fatalIfError(err)
-
-	dlist := &Domains{
-		nclist: ncdoms,
-		dommap: make(map[string]Domain),
-		ids:    make(map[int]*Domain),
-	}
-
-	// Wrap NC domains into our domains (we will save both)
-	for _, ncdom := range ncdoms {
-		dom := DomainFromNC(ncdom)
-		dlist.dommap[dom.Name] = dom
-		dlist.ids[dom.ID] = &dom
-	}
-	return dlist
 }
 
 // readDomains gets our domain list from a saved file somewhere
