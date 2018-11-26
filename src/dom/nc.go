@@ -6,6 +6,7 @@ import (
 
 	homedir "github.com/mitchellh/go-homedir"
 	namecheap "github.com/rustyeddy/go-namecheap"
+	log "github.com/sirupsen/logrus"
 )
 
 type nccreds struct {
@@ -18,7 +19,7 @@ func getClient() (ncli *namecheap.Client) {
 		u, t, n := creds()
 		ncli = namecheap.NewClient(u, t, n)
 		if ncli == nil {
-			panic("no client")
+			log.Fatalln("no client")
 		}
 	}
 	return ncli
@@ -28,15 +29,15 @@ func getClient() (ncli *namecheap.Client) {
 func creds() (u, t, v string) {
 
 	fname, err := homedir.Dir()
-	panicIfError(err)
+	fatalIfError(err)
 
 	credfile := fname + "/" + ".config/namecheap/creds.json"
 	b, err := ioutil.ReadFile(credfile)
-	panicIfError(err)
+	fatalIfError(err)
 
 	var creds nccreds
 	err = json.Unmarshal(b, &creds)
-	panicIfError(err)
+	fatalIfError(err)
 
 	// convert bytes to string
 	return creds.Name, creds.Token, creds.User

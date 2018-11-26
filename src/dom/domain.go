@@ -10,17 +10,17 @@ import (
 // Domain is our struct wrapped around the raw namecheap data
 type Domain struct {
 	*namecheap.DomainGetListResult
-	NS       []*net.NS
-	Provider string
-
-	Err error
+	ns       []*net.NS
+	provider string
+	Err      error
 }
 
 // DomainFromNC
 func DomainFromNC(d namecheap.DomainGetListResult) (dom Domain) {
 	dom = Domain{
 		DomainGetListResult: &d,
-		Provider:            "namecheap",
+
+		provider: "namecheap",
 	}
 	return dom
 }
@@ -29,11 +29,27 @@ func DomainFromNC(d namecheap.DomainGetListResult) (dom Domain) {
 func (d *Domain) Nameservers() []*net.NS {
 	// TODO: an error
 	var err error
-	d.NS, err = net.LookupNS(d.Name)
+	d.ns, err = net.LookupNS(d.Name)
 	if err != nil {
 		log.Warnf("NS lookup error %v", err)
 		d.Err = err
 		return nil
 	}
-	return d.NS
+	return d.ns
+}
+
+func (d *Domain) AddNameserver(name string) {
+	ns := &net.NS{
+		Host: name,
+	}
+	d.ns = append(d.ns, ns)
+}
+
+func (d *Domain) Provider() string {
+	return d.provider
+}
+
+func (d *Domain) String() (s string) {
+	s = "domain " + d.provider
+	return s
 }

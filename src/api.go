@@ -22,9 +22,3 @@ type Domain interface {
 	Nameservers() (nslist []*net.NS, err error)
 	Provider() (registrar string)
 }
-
-type Domains interface {
-	Domains() (doms Domains)
-	Index() (index *Domains)
-	Domain(name string) (dom *Domain)
-}
