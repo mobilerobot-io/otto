@@ -75,7 +75,7 @@ func (doms *DomainManager) Save() error {
 	}
 
 	log.Infof("Saving %d domains to %s\n", len(doms.dommap), fname)
-	jbuf, err := json.Marshal(doms)
+	jbuf, err := json.Marshal(doms.dommap)
 	fatalIfError(err)
 
 	fi, err := os.Create(fname)

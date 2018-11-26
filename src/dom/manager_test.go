@@ -2,6 +2,10 @@ package dom
 
 import "testing"
 
+func TestDomainsSave(t *testing.T) {
+	t.Fatal("TODO Write Domains Save Test")
+}
+
 // TestFetchAndReadDomains first "fetches" the domains from the provider
 // (namecheap), verifies it has more than one.  The second fetch reads the
 // domain list from the cache.
