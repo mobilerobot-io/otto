@@ -5,11 +5,12 @@ import (
 	"fmt"
 	"os"
 
-	namecheap "github.com/rustyeddy/go-namecheap"
+	namecheap "github.com/billputer/go-namecheap"
+	"github.com/mobilerobot-io/otto"
 )
 
 var (
-	domains Domains
+	domains otto.Domains
 	client  *namecheap.Client
 )
 
@@ -17,7 +18,7 @@ func main() {
 	flag.Parse()
 
 	// First try, read domains and write them
-	domains = GetDomains()
+	doms = otto.GetDomains()
 	if config.Verbosity > 0 {
 		fmt.Printf("Got %d domains\n", len(domains.Domains))
 	}
@@ -30,7 +31,7 @@ func main() {
 	}
 
 	for _, dom := range domains.Domains {
-		fmt.Printf("%d %s ns: ", dom.ID, dom.Name)
+		fmt.Println(dom) // let the dom string print
 		if ns := dom.Nameservers(); ns != nil && len(ns) > 0 {
 			for _, h := range ns {
 				fmt.Printf("%s ", h.Host)

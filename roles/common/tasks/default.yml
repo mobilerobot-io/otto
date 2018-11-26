@@ -1,0 +1,4 @@
+---
+- name: Add user otto
+  user:
+    id: otto

@@ -1,0 +1,4 @@
+github.com/billputer/go-namecheap v0.0.0-20180723184430-ebca3d36eda4 h1:YkGATs26b5QKyIEGomdfJAmin8HTwZBIZ1F2102gnMY=
+github.com/billputer/go-namecheap v0.0.0-20180723184430-ebca3d36eda4/go.mod h1:bqqNsI2akL+lLWyApkYY0cxquWPKwEBU0Wd3chi3TEg=
+github.com/rustyeddy/go-namecheap v0.0.0-20180812044447-ab865e94675a h1:tOAJGJTSiOWz5Ii8UWSuqAqNxA7TN75ErNLrW72CCD8=
+github.com/rustyeddy/go-namecheap v0.0.0-20180812044447-ab865e94675a/go.mod h1:V6yxoLWuE7PkofF6lFnuEzSQqq2FJDPW6l5MPBvuVXs=
