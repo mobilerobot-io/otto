@@ -17,7 +17,7 @@ import (
 // our universal format.  Along with an index of ids.
 type Domains struct {
 	nclist []namecheap.DomainGetListResult // namecheap domain list
-	dommap map[string]*Domain              // domain
+	dommap map[string]Domain               // domain
 	ids    map[int]*Domain                 // id map
 }
 
@@ -36,24 +36,25 @@ func FetchDomains() (doms *Domains) {
 	return doms
 }
 
-func (doms *Domains) Domain(name string) (dom *Domain) {
+func (doms *Domains) Domain(name string) (dom Domain, found bool) {
 	fatalIfNil(doms.dommap)
 	if dom, ex := doms.dommap[name]; ex {
-		return dom
+		return dom, ex
 	}
-	return nil
+	return dom, true
 }
 
-func (doms *Domains) Domains() map[string]*Domain {
+func (doms *Domains) Domains() map[string]Domain {
 	if doms.dommap == nil {
-		doms.dommap = make(map[string]*Domain)
+		doms.dommap = make(map[string]Domain)
 		doms.ids = make(map[int]*Domain)
 	}
 	for _, ncdom := range doms.nclist {
-		d := new(Domain)
-		d.DomainGetListResult = &ncdom
+		d := Domain{
+			DomainGetListResult: ncdom,
+		}
 		doms.dommap[ncdom.Name] = d
-		doms.ids[ncdom.ID] = d
+		doms.ids[ncdom.ID] = &d
 	}
 	return doms.dommap
 }
@@ -108,14 +109,14 @@ func ncFetchDomains() *Domains {
 
 	dlist := &Domains{
 		nclist: ncdoms,
-		dommap: make(map[string]*Domain),
+		dommap: make(map[string]Domain),
 		ids:    make(map[int]*Domain),
 	}
 
 	// Wrap NC domains into our domains (we will save both)
 	for _, ncdom := range ncdoms {
 		dom := DomainFromNC(ncdom)
-		dlist.dommap[dom.Name] = &dom
+		dlist.dommap[dom.Name] = dom
 		dlist.ids[dom.ID] = &dom
 	}
 	return dlist

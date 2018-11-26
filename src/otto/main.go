@@ -4,12 +4,12 @@ import (
 	"flag"
 	"fmt"
 	"io"
-	"log"
 	"os"
 
 	namecheap "github.com/billputer/go-namecheap"
 	"github.com/mobilerobot-io/otto"
 	"github.com/mobilerobot-io/otto/dom"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -32,6 +32,10 @@ func main() {
 	switch args[0] {
 	case "domains":
 		doms := GetDomains()
+		if doms == nil {
+			log.Infoln("no domains cached, must fetch")
+			os.Exit(-1)
+		}
 		printDomains(wr, doms)
 	case "sites":
 		//listSites(wr, sites)
@@ -49,7 +53,9 @@ func GetDomains() *dom.Domains {
 		} else {
 			domains = dom.GetDomains()
 		}
-		fatalIfNil(domains)
+		if domains == nil {
+			return nil
+		}
 
 		if config.Cache {
 			domains.Save()

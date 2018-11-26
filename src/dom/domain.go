@@ -10,7 +10,7 @@ import (
 
 // Domain is our struct wrapped around the raw namecheap data
 type Domain struct {
-	*namecheap.DomainGetListResult
+	namecheap.DomainGetListResult
 	ns       []*net.NS
 	provider string
 	Err      error
@@ -19,9 +19,8 @@ type Domain struct {
 // DomainFromNC
 func DomainFromNC(d namecheap.DomainGetListResult) (dom Domain) {
 	dom = Domain{
-		DomainGetListResult: &d,
-
-		provider: "namecheap",
+		DomainGetListResult: d,
+		provider:            "namecheap",
 	}
 	return dom
 }
