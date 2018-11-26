@@ -1,6 +1,9 @@
 # otto
 
 This is OttO, otto is responsible for managing and monitoring a
+_network of hosts_ that make up a _site_ or _application_.
+
+
 specifc networks assets (hosts, VMs, disks, etc.) using the popular
 tools terraform and ansible.
 
