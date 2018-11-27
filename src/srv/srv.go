@@ -1,11 +1,8 @@
-package main
+package srv
 
-/* Serve up our services with srv.
-   - static file server
-*/
+// Serve up our services with srv.
 import (
 	"flag"
-	"fmt"
 	"io/ioutil"
 
 	"net/http"
@@ -20,25 +17,15 @@ var (
 )
 
 func init() {
-	flag.StringVar(&dir, "dir", "/srv/www/", "Serve up a page or site from directory")
+	flag.StringVar(&www, "dir", "/srv/www/", "Serve up a page or site from directory")
 	flag.StringVar(&addr, "addr", ":80", "Port and local address to bind defualt :80")
 }
 
-func main() {
-	flag.Parse()
+// Start a static file server using the base directory as root file system
+func StaticServer(addrport string, basedir string) {
 	r := mux.NewRouter()
 
-	log.Infoln("Serving static sites ")
-	for _, site := range getSites() {
-		path := dir + site
-		//s := "/" + site
-
-		log.Infof("\t%-10s %s created subrouter", site, path)
-		sr := r.Host(site).Subrouter()
-		sr.PathPrefix("").Handler(http.StripPrefix("", http.FileServer(http.Dir(path))))
-	}
-
-	fmt.Printf("routes %+v\n", r)
+	log.Infof("Listing on %s ~> serving static sites from ", basedir)
 
 	srv := &http.Server{
 		Handler: r,
