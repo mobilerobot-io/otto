@@ -7,47 +7,57 @@ import (
 	"os"
 
 	namecheap "github.com/billputer/go-namecheap"
-	"github.com/mobilerobot-io/otto"
 	"github.com/mobilerobot-io/otto/dom"
+	"github.com/mobilerobot-io/otto/service"
 	log "github.com/sirupsen/logrus"
 )
 
 var (
 	domains *dom.DomainManager
-	client  *namecheap.Client
+
+	cli    *namecheap.Client
+	srv    *service.Service
+	config Configuration
 )
 
 func main() {
 	flag.Parse()
 
-	var args []string
-	wr := os.Stdout
-
-	if len(flag.Args()) < 1 {
-		args = []string{"domains"}
-	} else {
-		args = flag.Args()
+	// If there is anything on the command line we will treat it
+	// as a one time command.  Once the command is finished this
+	// program will exit
+	if len(flag.Args()) > 0 {
+		docmd(flag.Args())
+		os.Exit(0)
 	}
 
-	switch args[0] {
-	case "domains":
-		doms := GetDomains()
-		if doms == nil {
-			log.Infoln("no domains cached, must fetch")
-			os.Exit(-1)
+	srv := service.NewService(config.Addr)
+	srv.Start()
+}
+
+func docmd(args []string) {
+
+	// we have at least one argument
+	argc := len(args)
+	if argc > 1 {
+
+		switch flag.Arg(0) {
+		case "domains":
+			doms := GetDomains()
+			if doms == nil {
+				log.Infoln("no domains cached, must fetch")
+				os.Exit(-1)
+			}
+			printDomains(os.Stdout, doms)
+		default:
+			fmt.Errorf("I do not know what command %s is", args[0])
 		}
-		printDomains(wr, doms)
-	case "sites":
-		//listSites(wr, sites)
-	default:
-		fmt.Errorf("I do not know what command %s is", args[0])
 	}
 }
 
 // GetDomains will
 func GetDomains() *dom.DomainManager {
 	if domains == nil {
-		config := otto.GetConfig()
 		if config.Fetch {
 			domains = dom.FetchDomains()
 		} else {
@@ -58,7 +68,7 @@ func GetDomains() *dom.DomainManager {
 		}
 
 		if config.Cache {
-			domains.Save()
+			domains.Save(config.Dir + "/domains.json")
 		}
 
 		for _, dom := range domains.Domains() {

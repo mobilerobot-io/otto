@@ -8,7 +8,6 @@ import (
 	"os"
 
 	namecheap "github.com/billputer/go-namecheap"
-	"github.com/mobilerobot-io/otto"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -30,7 +29,7 @@ func GetDomains() (doms *DomainManager) {
 	// These are stored in as the origin response from namecheap
 	// wrapped in our own structure adding a little meta data to
 	// give the object some context
-	if doms = readDomains(); doms == nil {
+	if doms = readDomains("/srv/www/data/domains.json"); doms == nil {
 		doms = FetchDomains()
 	}
 	return doms
@@ -65,10 +64,7 @@ func (doms *DomainManager) Domains() map[string]Domain {
 
 // Save will save the cached namecheap response, we can build indexes
 // from the original response.
-func (doms *DomainManager) Save() error {
-	config := otto.GetConfig()
-	fname := config.Basedir + "/data/domains.json"
-
+func (doms *DomainManager) Save(fname string) error {
 	if len(doms.dommap) < 1 {
 		log.Infoln("No domains to save returning")
 		return nil
@@ -100,10 +96,7 @@ func (doms *DomainManager) Text(w io.Writer) {
 }
 
 // readDomains gets our domain list from a saved file somewhere
-func readDomains() *DomainManager {
-	config := otto.GetConfig()
-
-	fname := config.Basedir + "/data/domains.json"
+func readDomains(fname string) *DomainManager {
 
 	log.Infof("Reading domains %s ...\n", fname)
 	jbuf, err := ioutil.ReadFile(fname)

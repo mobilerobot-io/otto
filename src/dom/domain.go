@@ -44,7 +44,7 @@ func (d *Domain) Provider() string {
 // DNS Records
 // ========================================================================
 
-// DNSHosts will call namecheap.domains.dns.getHosts
+// DNSHosts will call namecheap.domains.dns.getHosts. TODO Untested
 func (d *Domain) DNSHosts() (nchosts *namecheap.DomainDNSGetHostsResult, err error) {
 	cli := getClient()
 	nchosts, err = cli.DomainsDNSGetHosts(d.sld, d.tld)
