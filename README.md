@@ -5,6 +5,57 @@ _network of hosts_ that make up a _site_ or _application_.
 
 Otto manages the following scenarios
 
+## Inventory
+
+```
+- get /inv
+- get /inv/{item}
+- put /inv/{item}
+- post /inv/{item} body=json
+- delete /inv/{item}
+```
+
+## Domains
+
+```
+- get /dom/
+- get /dom/{domain}
+- put /dom/{domain}
+- post /dom/{domain}
+- delete /dom/{domain}
+```
+
+### Domains DNS
+
+```
+- get /dom/ns/{domain}  => get nameservers for domain
+- post /dom/ns/{domain}?ns='ns1,ns2'
+- delete /dom/ns/{domain}
+
+- get /dom/dns/{domain} => return host records
+- set /dom/dns/{domain}?rec=foo
+- delete /dom/dns/{domain}
+```
+
+## Sites
+
+```
+- get /site -> site list
+- get /site/{site} -> a single detailed site
+- put /site/{site}?params="..."
+- delete /site/{site}
+```
+
+## Walker
+```
+- get /site/walk/					- get list of recent site walks
+- get /site/walk/{site}/			- return a list of walkids and the last walk
+- get /site/walk/{site}/{walkid}	- return the walk the the specific id
+- put /site/walk/{site}?params="."  - schedule walk params
+- delete /site/walk/{site}			- git rid of the walkers
+```  
+
+
 1. Inventory of online resources
 1. Provision resources for applications with Terraform
 2. Configuration Management with Ansible

@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	domains *dom.Domains
+	domains *dom.DomainManager
 	client  *namecheap.Client
 )
 
@@ -45,7 +45,7 @@ func main() {
 }
 
 // GetDomains will
-func GetDomains() *dom.Domains {
+func GetDomains() *dom.DomainManager {
 	if domains == nil {
 		config := otto.GetConfig()
 		if config.Fetch {
@@ -69,7 +69,7 @@ func GetDomains() *dom.Domains {
 }
 
 // write domains to writer
-func printDomains(wr io.Writer, doms *dom.Domains) {
+func printDomains(wr io.Writer, doms *dom.DomainManager) {
 	fmt.Fprintln(wr, "Domains ... ")
 	for n, dom := range doms.Domains() {
 		fmt.Fprintf(wr, "%s -> %+v\n", n, dom)
