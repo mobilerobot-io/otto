@@ -32,6 +32,9 @@ func main() {
 	}
 
 	srv := service.NewService(config.Addr)
+	srv.AddService(dom.NewService())
+	//srv.AddService(site.NewService())
+	srv.Walk()
 	srv.Start()
 }
 

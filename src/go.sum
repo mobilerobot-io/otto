@@ -9,6 +9,10 @@ github.com/mitchellh/go-homedir v1.0.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrk
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/rustyeddy/go-namecheap v0.0.0-20180812044447-ab865e94675a h1:tOAJGJTSiOWz5Ii8UWSuqAqNxA7TN75ErNLrW72CCD8=
 github.com/rustyeddy/go-namecheap v0.0.0-20180812044447-ab865e94675a/go.mod h1:V6yxoLWuE7PkofF6lFnuEzSQqq2FJDPW6l5MPBvuVXs=
+github.com/rustyeddy/golab v0.0.0-20181110165753-46b7f596d37e h1:cSPbeeYlL7a/OuqFXndaBl6CfAYeRpeEOm6IapW6grE=
+github.com/rustyeddy/golab v0.0.0-20181110165753-46b7f596d37e/go.mod h1:m4O/BgxTJ3UanUNt0zALY92ri8fKemZQmeGMMFtSz38=
+github.com/rustyeddy/logrus v1.0.5 h1:qa8nPiLeoc+kUrlWwpxvIEflov3o63prZYYV39/c93o=
+github.com/rustyeddy/logrus v1.0.5/go.mod h1:+UEuPMYfzlUcgchFiMyinR2YfoEELYwX+Df+qtn4BoI=
 github.com/sirupsen/logrus v1.2.0 h1:juTguoYk5qI21pwyTXY3B3Y5cOTH3ZUyZCg1v/mihuo=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/stretchr/objx v0.1.1/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

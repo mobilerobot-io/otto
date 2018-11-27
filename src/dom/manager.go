@@ -47,11 +47,14 @@ func (doms *DomainManager) Domain(name string) (dom Domain, found bool) {
 	return dom, true
 }
 
+// Domains will return a domain map, keyed on the Domain name
+// with much domain meta information a long with it
 func (doms *DomainManager) Domains() map[string]Domain {
 	if doms.dommap == nil {
 		doms.dommap = make(map[string]Domain)
 		doms.ids = make(map[int]*Domain)
 	}
+
 	for _, ncdom := range doms.nclist {
 		d := Domain{
 			DomainGetListResult: ncdom,
