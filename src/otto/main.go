@@ -36,7 +36,6 @@ func main() {
 }
 
 func docmd(args []string) {
-
 	// we have at least one argument
 	argc := len(args)
 	if argc > 1 {
