@@ -9,17 +9,18 @@ import (
 )
 
 type Configuration struct {
-	Addr string
-	Dir  string
-
+	Addr  string
+	Dir   string
 	Fetch bool
 	Cache bool
 
-	LogLevel, LogOutput, LogFormat string
+	LogLevel  string
+	LogOutput string
+	LogFormat string
 }
 
 func init() {
-	config := &Configuration{
+	config = Configuration{
 		Addr: ":3333",
 		Dir:  "/srv/invdb/data/",
 

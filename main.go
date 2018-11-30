@@ -11,17 +11,19 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// All global variables here
+var (
+	config Configuration
+)
+
 // Everything on the command line should be a plugin
 func main() {
 	flag.Parse()
 
 	r := mux.NewRouter()
-
-	// This will serve files under http://localhost:8000/static/<filename>
-	//r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir(dir))))
 	srv := &http.Server{
 		Handler: r,
-		Addr:    ":8777",
+		Addr:    config.Addr,
 		// Good practice: enforce timeouts for servers you create!
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
@@ -48,7 +50,7 @@ func main() {
 		// Create our new subroutee
 		s := r.PathPrefix(path).Subrouter()
 
-		log.Infoln("    subrouter created ", path)
+		log.Infoln("  subrouter created ", path)
 
 		// Get the Register functions symbol from our plugin and register
 		regf, err := pl.Lookup("Register")
@@ -56,7 +58,7 @@ func main() {
 
 		// Now register our plugin by passing the newly created
 		// subrouter to the new plugin's Register(*mux.Router) function
-		regf.(func(*mux.Router))(s)
+		regf.(func(string, *mux.Router))(name, s)
 		log.Infoln("  subroutes have been registered ", path)
 	}
 

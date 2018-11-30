@@ -12,13 +12,20 @@ import (
 	"golang.org/x/oauth2"
 )
 
+var (
+	config Configuration // Configuration and flags are handled in config.go
+
+	client  *godo.Client
+	account *godo.Account
+)
+
 // Client
 // ====================================================================
 
 // doClient will find the access token, prepare for authentication
 // ready to call the server with some important stuff
 func doClient() (cli *godo.Client) {
-	creds := getCreds()
+	creds := doCreds()
 	tokenSource := &TokenSource{
 		AccessToken: creds.Token,
 	}
@@ -34,8 +41,8 @@ type docreds struct {
 	Name, Token string
 }
 
-// getCreds reads the digital credits from a json file.
-func getCreds() (creds docreds) {
+// doCreds reads the digital credits from a json file.
+func doCreds() (creds docreds) {
 	b, err := ioutil.ReadFile(config.Creds)
 	panicIfError(err)
 
@@ -120,7 +127,7 @@ func doCDN() []godo.CDN {
 	return cdns
 }
 
-func displayCDNs(w io.Writer) (ok bool) {
+func displayCDN(w io.Writer) (ok bool) {
 	cdns := doCDN()
 	panicIfNil(cdns)
 
@@ -129,4 +136,25 @@ func displayCDNs(w io.Writer) (ok bool) {
 		fmt.Fprintf(w, "\t%s => %s\n", cdn.Origin, cdn.Endpoint)
 	}
 	return true
+}
+
+func Do() {
+	var objs []interface{}
+	acct := doAccount()
+
+	objs = append(objs, acct)
+
+	actions := doActions()
+	objs = append(objs, actions)
+
+	cdns := doCDN()
+	objs = append(objs, cdns)
+
+	projs := doProjects()
+	objs = append(objs, projs)
+
+	resp := getResponse(config.Output, config.Format)
+	for _, o := range objs {
+		resp.Respond(o)
+	}
 }
