@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/mobilerobot-io/otto/api"
 )
 
 // Everything on the command line should be a plugin
@@ -32,18 +31,23 @@ func main() {
 		pl, err := plugin.Open(arg)
 		check(err)
 
-		svcsym, err := pl.Lookup("Service")
+		n, err := pl.Lookup("Name")
 		check(err)
 
-		svc := *svcsym.(*api.Service)
-		path := svc.Path()
+		// Determine the name and path for our new subroute
+		name := *n.(*string)
+		path := "/" + name
 
+		// Create our new subroutee
 		s := r.PathPrefix(path).Subrouter()
-		svc.Register(s)
 
-		// pass the new subrouter to our register callback from our plugin
-		//err = reg.(func(r *mux.Router) error)(s)
+		// Get the Register functions symbol from our plugin and register
+		regsym, err := pl.Lookup("Register")
 		check(err)
+
+		// Now register our plugin
+		reg := regsym.(func(*mux.Router))
+		reg(s)
 	}
 
 	log.Println("  otto is starting on ", srv.Addr)
