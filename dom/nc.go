@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 
-	namecheap "github.com/billputer/go-namecheap"
+	namecheap "github.com/rustyeddy/go-namecheap"
 	homedir "github.com/mitchellh/go-homedir"
 	log "github.com/sirupsen/logrus"
 )

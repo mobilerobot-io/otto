@@ -5,7 +5,7 @@ import (
 	"net"
 	"strings"
 
-	namecheap "github.com/billputer/go-namecheap"
+	namecheap "github.com/rustyeddy/go-namecheap"
 )
 
 // Domain is our struct wrapped around the raw namecheap data

@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	namecheap "github.com/billputer/go-namecheap"
+	namecheap "github.com/rustyeddy/go-namecheap"
 	log "github.com/sirupsen/logrus"
 )
 

@@ -4,7 +4,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/mobilerobot-io/otto/service"
 )
 
 type DomainService struct {

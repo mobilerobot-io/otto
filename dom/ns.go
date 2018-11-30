@@ -3,7 +3,7 @@ package dom
 import (
 	"net"
 
-	nc "github.com/billputer/go-namecheap"
+	nc "github.com/rustyeddy/go-namecheap"
 	log "github.com/sirupsen/logrus"
 )
 

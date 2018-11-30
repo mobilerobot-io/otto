@@ -6,7 +6,7 @@ import (
 	"io"
 	"os"
 
-	namecheap "github.com/billputer/go-namecheap"
+	namecheap "github.com/rustyeddy/go-namecheap"
 	"github.com/mobilerobot-io/otto/dom"
 	"github.com/mobilerobot-io/otto/service"
 	log "github.com/sirupsen/logrus"

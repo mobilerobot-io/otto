@@ -1,4 +1,4 @@
-package service
+package main
 
 import (
 	"encoding/json"
@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/mobilerobot-io/otto"
 	log "github.com/sirupsen/logrus"
 )
 

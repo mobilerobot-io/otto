@@ -1,5 +1,5 @@
 build:
-	go build -v -o otto
+	go build -v
 
 test:
 	go test -v
