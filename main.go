@@ -2,10 +2,11 @@ package main
 
 import (
 	"flag"
-	"log"
 	"net/http"
 	"plugin"
 	"time"
+
+	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/mux"
 )
@@ -28,6 +29,7 @@ func main() {
 
 	for _, arg := range flag.Args() {
 
+		log.Infoln("  new plugin ", arg)
 		pl, err := plugin.Open(arg)
 		check(err)
 
@@ -37,23 +39,31 @@ func main() {
 		// Determine the name and path for our new subroute
 		name := *n.(*string)
 		path := "/" + name
+		if name == "static" || name == "clowdops.net" {
+			path = "/"
+		}
+
+		log.Infof("   name %s path %s", name, path)
 
 		// Create our new subroutee
 		s := r.PathPrefix(path).Subrouter()
 
+		log.Infoln("    subrouter created ", path)
+
 		// Get the Register functions symbol from our plugin and register
-		regsym, err := pl.Lookup("Register")
+		regf, err := pl.Lookup("Register")
 		check(err)
 
-		// Now register our plugin
-		reg := regsym.(func(*mux.Router))
-		reg(s)
+		// Now register our plugin by passing the newly created
+		// subrouter to the new plugin's Register(*mux.Router) function
+		regf.(func(*mux.Router))(s)
+		log.Infoln("  subroutes have been registered ", path)
 	}
 
 	log.Println("  otto is starting on ", srv.Addr)
-	srv.ListenAndServe()
+	err := srv.ListenAndServe()
 
-	log.Println("Good bye")
+	log.Println("Good bye... ", err)
 }
 
 func check(err error) {

@@ -16,7 +16,7 @@ var (
 // the caller to provide us with a router (subrouter)
 func Register(s *mux.Router) {
 	s.HandleFunc("/", Handler)
-	s.HandleFunc("/{str}", Handler)
+	s.HandleFunc("/{str}", Handler).Name("echo")
 	log.Infoln("  echo was registered... ")
 }
 
@@ -27,7 +27,6 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	var ex bool
 
 	vars := mux.Vars(r)
-	log.Printf("%+v", vars)
 	if str, ex = vars["str"]; ex {
 		n, err := w.Write([]byte(str))
 		check(err)
