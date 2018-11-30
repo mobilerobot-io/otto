@@ -40,19 +40,12 @@ func main() {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-	/*
-		service := Service{
-			Name:   "otto",
-			Addr:   ":4422",
-			Path:   "/otto",
-			Server: srv,
-		}
-	*/
 
-	for _, arg := range flag.Args() {
+	for _, name := range flag.Args() {
 
-		log.Infoln("  new plugin ", arg)
-		pl, err := plugin.Open(arg)
+		log.Infoln("  new plugin ", name)
+		path := name + "/" + name + ".so"
+		pl, err := plugin.Open(path)
 		check(err)
 
 		n, err := pl.Lookup("Name")
@@ -60,16 +53,16 @@ func main() {
 
 		// Determine the name and path for our new subroute
 		name := *n.(*string)
-		path := "/" + name
+		url := "/" + name
 		if name == "static" || name == "clowdops.net" {
-			path = "/"
+			url = "/"
 		}
 
-		log.Infof("   name %s path %s", name, path)
+		log.Infof("   name %s path %s url %s ", name, path, url)
 
 		// Create our new subroutee
-		sub := r.PathPrefix(path).Subrouter()
-		log.Infoln("  subrouter created ", path)
+		sub := r.PathPrefix(url).Subrouter()
+		log.Infoln("  subrouter created ", url)
 
 		// Get the Register functions symbol from our plugin and register
 		regf, err := pl.Lookup("Register")

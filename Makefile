@@ -7,6 +7,7 @@ all:
 	make -C static
 	make -C store
 	make -C dork
+	make -C wally
 
 test:
 	go test -v
