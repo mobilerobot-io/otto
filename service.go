@@ -34,7 +34,7 @@ func NewService(addr string) (s *Service) {
 	return s
 }
 
-func (s *Service) AddService(svc otto.Service) {
+func (s *Service) AddService(svc Service) {
 	sub := s.subrouter(svc.Path())
 	svc.Register(sub)
 }
