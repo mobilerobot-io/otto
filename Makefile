@@ -18,4 +18,8 @@ dork:
 	make -C dork 
 	go build -v && ./otto dork/dork.so 
 
-.PHONY: dork
+wally: 
+	make -C wally 
+	go build -v && ./otto wally/wally.so 
+
+.PHONY: dork wally echo static

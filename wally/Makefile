@@ -1,9 +1,3 @@
 build:
-	go build -v 
+	go build -buildmode=plugin
 
-run:
-	go run -v main.go
-
-clean:
-	go clean
-	rm *~

@@ -11,7 +11,7 @@ import (
 var Name = "do"
 
 func Register(name string, s *mux.Router) {
-	s.HandleFunc("/", DoHandler)
+	s.HandleFunc("/", DoHandler).Name("dork")
 	//s.HandleFunc("/{str}", Handler).Name("echo")
 	log.Infoln("  digital ocean was registered... ")
 }

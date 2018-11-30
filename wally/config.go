@@ -17,6 +17,7 @@ type Configuration struct {
 	Allow     string // comma separated list of hosts to allow
 	Basedir   string // working directory for the applicatio
 
+	Debug       bool
 	Depth       int // Crawl Depth (default to 1 to be nice)
 	Parallelism int // Level of Parallelism
 
@@ -34,42 +35,41 @@ type Globals struct {
 
 	// Our collector
 	colector *colly.Collector
-
-	// Our primary dynamic global indexes
-
 }
 
-// Handle mundane, yet important configuraion stuff
-func config() {
+func configed() {
 	flag.Parse()
 
+	var err error
 	// Create our storage directory if it does not already exist
-	if _, err := os.Stat(*basedir); err != nil {
-		if err := os.MkdirAll(*basedir, 0644); err != nil {
+	if _, err = os.Stat(basedir); err != nil {
+		if err = os.MkdirAll(basedir, 0644); err != nil {
 			panic("could not create base directory")
 		}
 	}
 
 	// Open the log file and set it for logging
-	io, err := os.OpenFile(*logfile, os.O_RDWR|os.O_CREATE, 0644)
-	if err != nil {
-		panic(err)
-		//log.Error("failed to write log file ", logfile)
-		//io = os.Stdout
+	o := os.Stdout
+	if config.Logfile != "" {
+		o, err = os.OpenFile(config.Logfile, os.O_RDWR|os.O_CREATE, 0644)
+		if err != nil {
+			panic(err)
+			//log.Error("failed to write log file ", logfile)
+			//io = os.Stdout
+		}
 	}
-
 	// Setup the logger and other outputs
 	log.SetFormatter(&log.JSONFormatter{})
 	log.SetLevel(log.InfoLevel)
-	log.SetOutput(io)
+	log.SetOutput(o)
 
 	// Set the debug level if we have turned debugging on
-	if *debug {
+	if config.Debug {
 		log.SetLevel(log.DebugLevel)
 	}
 
-	if *tracefile != "" {
-		traceout, err = os.Create(*tracefile)
+	if config.Tracefile != "" {
+		traceout, err = os.Create(config.Tracefile)
 		if err != nil {
 			panic(err)
 		}
