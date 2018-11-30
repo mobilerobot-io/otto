@@ -1,9 +1,14 @@
 build:
 	go build -v
 
+all: 
+	go build -v
+	make -C echo
+
 test:
 	go test -v
 
-run: build
-	go run main.go 
+run: all
+	./otto echo/echo.so 
+
 
