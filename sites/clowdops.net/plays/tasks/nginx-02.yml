@@ -1,0 +1,49 @@
+---
+- hosts: bitalian
+  remote_user: root
+  tasks:
+
+    - name: add user otto
+      user:
+        name: otto
+        comment: Otto The Maker
+        groups: admin,sudo
+        generate_ssh_key: yes
+
+    - name: copy root authorized keys to otto
+      copy:
+        remote_src: yes
+        src: /root/.ssh/authorized_keys
+        dest: /home/otto/.ssh/authorized_keys
+        owner: otto
+        group: otto
+
+    - name: chowner of /srv/www
+      file:
+        path: /srv/www
+        owner: otto
+        group: otto
+        state: directory
+
+    - name: update the ubuntu server software
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+        force_apt_get: true
+
+    - name: install nginx
+      apt:
+        name: nginx
+        state: latest
+        update_cache: yes
+
+    - name: pull the website down from git
+      git:
+        repo: 'git@github.com:mobilerobot-io/bitalian.us'
+        dest: '/srv/www/bitalian.us'
+        accept_hostkey: yes
+      become: no
+
+
+        

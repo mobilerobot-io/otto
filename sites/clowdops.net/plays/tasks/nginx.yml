@@ -1,0 +1,24 @@
+---
+- block:
+    - name: Install NGINX
+      apt:
+        name: nginx
+        state: present
+
+      template:
+        src: nginx-vhost.j2
+        dest: /etc/nginx/sites-available/{{ site }}
+      vars:
+        site:
+          - clowdops.net
+          - bitalian.us
+
+      file:
+        src: /etc/nginx/sites-available{{ site }}
+        dest: /etc/nginx/sites-enabled{{ site }}
+        state: link
+
+      tags:
+        - vhost
+    
+        
