@@ -1,9 +1,25 @@
 # otto
 
-This is OttO, otto is responsible for managing and monitoring a
-_network of hosts_ that make up a _site_ or _application_.
+OttO handles a number of details regarding getting the clowdops
+monitoring site up and running.
 
-Otto manages the following scenarios
+## Contents 
+
+The contents of this directory are as follows:
+
+- README.md: you are reading this file (tell you what's what)
+- Makefile ~ start infra, check status and destroy
+- Vagrantfile ~ start a local Virtualbox net with otto and nginx
+
+
+## Building and Checking Status
+
+```bash
+$ make prov		# provision sites (terraform or vagrant)
+$ make config	# run configuration management (ansible)
+$ make status   # quick health check (tf & ans, vag)
+$ make destroy  # stop and terminate all resources
+```
 
 ## Inventory
 

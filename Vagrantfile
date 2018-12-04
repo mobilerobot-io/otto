@@ -13,26 +13,26 @@ Vagrant.configure("2") do |config|
   config.vm.box = "bento/ubuntu-18.04"
   config.ssh.insert_key = false
 
-  config.vm.hostname = "otto.local"
+  config.vm.hostname = "loca.local"
   config.vm.post_up_message = "Run 'vagrant ssh' and do what it says "
   config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "public_network"
 
   # Make sure the local repo is there
-  config.vm.synced_folder "plays/", "/srv/otto/plays/"
+  config.vm.synced_folder "infra/plays/", "/srv/otto/plays/"
 
   # virtualbox is the "provider"
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.memory = "2048"  # make this smaller for production
+    vb.memory = "1024"  # make this smaller for production
     vb.linked_clone = true
   end
 
   # ansible is the "provisioner"
   # config.vm.provision "ansible" do |ansible|
   config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "clowdops.yml"
-    ansible.provisioning_path = "/srv/otto/plays"
+    ansible.playbook = "site.yml"
+    ansible.provisioning_path = "/srv/otto/infra/plays"
     ansible.install = true
     ansible.install_mode = "pip"
   end

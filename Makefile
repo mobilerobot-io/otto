@@ -1,24 +1,33 @@
-plays: /srv/otto-local
-	cp -r plays /srv/otto-local
+dirs = src infra sites
 
-up: plays
-	vagrant up
+bidndir = /usr/local/bin
 
-provision: plays
+vag = $(bindir)/vagrant 
+ans = $(bindir)/ansible
+
+otto:
+	make -C otto $@
+
+provision: otto
+	make -C infra $@
+	make -C sites $@
+
+config:
+	make -C infra $@
+	make -C sites $@
 	vagrant provision
-
-destroy:
-	vagrant destroy
-
-clean:
-	go clean
-	rm -rf *~ \#*
-	rm -rf tmp
 
 status:
 	vagrant status
+	make -C infra $@
+	make -C sites $@
 
-keys:
-	mkdir tmp; cd tmp && ssh-keygen -q -f ./id_rsa
+destroy:
+	vagrant destroy
+	make -C infra $@
+	make -C sites $@
 
-.PHONY: plays
+clean:
+	rm -rf *~ 
+
+.PHONY: otto up provision status

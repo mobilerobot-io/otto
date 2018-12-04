@@ -1,4 +1,7 @@
-tf = ./tf
+tf = /usr/local/bin/terraform
+
+status:
+	@echo "TODO - move this into its own module"
 
 init:
 	$(tf) init

@@ -8,7 +8,7 @@ dstpubkey: /home/otto/.ssh/id_rsa.pub
 srcpvtkey: tmp/id_rsa
 dstpvtkey: /home/otto/.ssh/id_rsa
 
-# do we really need this?
+# used in our nginx config
 thisport: 80
 
 websites:
