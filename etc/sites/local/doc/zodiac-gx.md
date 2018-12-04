@@ -1,3 +1,0 @@
----
-title: Zodiac GX
----

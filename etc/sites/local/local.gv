@@ -1,8 +1,0 @@
-digraph "home" {
-	I -- { spec1 spec2 };
-
-	spec1 -- phone;
-	spec2 -- tpl-w -- { o58 tpl-g o53 o6n2 };
-
-	tpl-g -- { wx gx vizio };
-}

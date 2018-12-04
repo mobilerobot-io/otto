@@ -1,4 +1,0 @@
----
----
- 
-BeagalBone Black 
