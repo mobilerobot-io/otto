@@ -1,26 +1,24 @@
-build:
-	go build -v
+plays: /srv/otto-local
+	cp -r plays /srv/otto-local
 
-all: 
-	go build -v
-	make -C echo
-	make -C static
-	make -C store
-	make -C dork
-	make -C wally
+up: plays
+	vagrant up
 
-test:
-	go test -v
+provision: plays
+	vagrant provision
 
-run: all
-	./otto dork/dork.so
+destroy:
+	vagrant destroy
 
-dork: 
-	make -C dork 
-	go build -v && ./otto dork/dork.so 
+clean:
+	go clean
+	rm -rf *~ \#*
+	rm -rf tmp
 
-wally: 
-	make -C wally 
-	go build -v && ./otto wally/wally.so 
+status:
+	vagrant status
 
-.PHONY: dork wally echo static
+keys:
+	mkdir tmp; cd tmp && ssh-keygen -q -f ./id_rsa
+
+.PHONY: plays
