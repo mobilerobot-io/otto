@@ -1,0 +1,10 @@
+  /Users/rusty/src/otto/echo:
+  total used in directory 13912 available 9223372036851919091
+  drwxr-xr-x   8 rusty  staff      256 Nov 30 07:01 .
+  lrwxr-xr-x   1 rusty  staff       26 Nov 30 07:01 .#echo.go -> rusty@rustyeddy.local.8274
+  drwxr-xr-x  17 rusty  staff      544 Nov 30 07:01 ..
+  -rw-r--r--   1 rusty  staff       36 Nov 29 19:59 Makefile
+D -rw-r--r--   1 rusty  staff       36 Nov 29 19:54 Makefile~
+  -rw-r--r--   1 rusty  staff      647 Nov 30 07:00 echo.go
+D -rw-r--r--   1 rusty  staff      359 Nov 29 20:06 echo.go~
+  -rw-r--r--   1 rusty  staff  7102664 Nov 29 22:45 echo.so
