@@ -4,9 +4,23 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"github.com/digitalocean/godo"
 )
+
+type Project struct {
+	ID          string    `json:"id"`
+	OwnerUUID   string    `json:"owner_uuid"`
+	OwnerId     string    `json:"owner_id"`
+	Name        string    `json:"name"`
+	Description string    `json:"description"`
+	Purpose     string    `json:"purpose"`
+	Environment string    `json:"environment"`
+	IsDefault   bool      `json:"is_default"`
+	Created     time.Time `json:"created_at"`
+	Updated     time.Time `json:"updated_at"`
+}
 
 // Projects
 // ====================================================================

@@ -1,5 +1,5 @@
-resource "digitalocean_droplet" "dev" {
-  name = "dev"
+resource "digitalocean_droplet" "w01" {
+  name = "w01"
   image = "ubuntu-18-04-x64"
   region = "sfo2"
   size = "s-1vcpu-1gb"
@@ -16,6 +16,10 @@ resource "digitalocean_droplet" "dev" {
     timeout = "2m"
   }
 
+  provisioner "local-exec" {
+    command = "echo ${digitalocean_droplet.w01.ipv4_address} >  /srv/inventory/hosts-w01"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
@@ -23,4 +27,8 @@ resource "digitalocean_droplet" "dev" {
       "sudo apt-get -y install python"
     ]
   }
+}
+
+output "w01" {
+  value = "${digitalocean_droplet.w01.ipv4_address}"
 }

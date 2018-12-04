@@ -16,11 +16,19 @@ resource "digitalocean_droplet" "otto" {
     timeout = "2m"
   }
 
+  provisioner "local-exec" {
+    command = "echo ${digitalocean_droplet.otto.ipv4_address} > /srv/inventory/hosts-otto"
+  }
+
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
-      "sudo apt-get -y install python",
+      "sudo apt-get -y install python"
     ]
   }
+}
+
+output "oTToIP" {
+  value = "${digitalocean_droplet.otto.ipv4_address}"
 }
