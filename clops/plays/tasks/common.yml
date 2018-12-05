@@ -1,0 +1,16 @@
+---
+- name: Get software for the apt repo
+  remote_user: root
+  apt:
+    name: "{{ pkg }}"
+    state: present
+  vars:
+    pkg:
+      - ntp
+      - python
+      - python-apt
+      - python-pycurl
+      - python-pip
+      - nginx
+      - git
+

@@ -1,7 +1,6 @@
 ---
 - hosts: all
   remote_user: root
-
   vars_files:
     - vars.yml
 
@@ -15,54 +14,8 @@
     - import_tasks: handlers/handlers.yml
 
   tasks:
-
-    - name: Get software for the apt repo
-      apt:
-        name: "{{ pkg }}"
-        state: present
-      vars:
-        pkg:
-          - ntp
-          - python
-          - python-apt
-          - python-pycurl
-          - python-pip
-          - git
-
-    - name: Create otto
-      user:
-        name: otto
-        comment: OttO Maker
-        groups: adm,sudo
-
-    - name: Create the local ssh directory
-      file:
-        path: /home/{{ ottouser }}/.ssh
-        state: directory
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0700
-      tags: keys
-
-    - name: Copy private key to host
-      copy:
-        # remote_src: yes # for vagrant
-        src: "{{ srcpvtkey }}"
-        dest: "{{ dstpvtkey }}"
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0600
-      tags: keys
-
-    - name: Copy public key to host
-      copy:
-        # remote_src: yes - for vagrant
-        src: "{{ srcpubkey }}"
-        dest: "{{ dstpubkey }}"
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0644
-      tags: keys
+    - import_tasks: tasks/common.yml
+    - import_tasks: tasks/user.yml
       
     - name: Create the stage directory
       file:
@@ -72,17 +25,8 @@
         group: "{{ ottogroup }}"
         mode: 0755
 
-    - name: Pull this repo on this new
-      remote_user: otto
-      become: yes
-      git:
-        repo: git@github.com:mobilerobot-io/"{{ repo }}"
-        dest: /srv/stage/"{{ repo }}"
-        update: yes
-      tags:
-        - repo 
-      vars:
-        repo:
-          - clowdops.net
-          - otto
-          - inventory
+    - name: Add this hosts keys to otto
+      authorized_key:
+        user: otto
+        state: present
+        key: "{{ lookup('file', '/Users/rusty/.ssh/id_rsa.pub') }}"
