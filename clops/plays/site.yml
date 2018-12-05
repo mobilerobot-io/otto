@@ -42,26 +42,29 @@
         owner: "{{ ottouser }}"
         group: "{{ ottogroup }}"
         mode: 0700
+      tags: keys
 
     - name: Copy private key to host
       copy:
+        # remote_src: yes # for vagrant
         src: "{{ srcpvtkey }}"
-        remote_src: yes
         dest: "{{ dstpvtkey }}"
         owner: "{{ ottouser }}"
         group: "{{ ottogroup }}"
         mode: 0600
+      tags: keys
 
     - name: Copy public key to host
       copy:
-        remote_src: yes
+        # remote_src: yes - for vagrant
         src: "{{ srcpubkey }}"
         dest: "{{ dstpubkey }}"
         owner: "{{ ottouser }}"
         group: "{{ ottogroup }}"
         mode: 0644
-
-    - name: Create the local ssh directory
+      tags: keys
+      
+    - name: Create the stage directory
       file:
         path: /srv/stage/
         state: directory
@@ -77,7 +80,7 @@
         dest: /srv/stage/"{{ repo }}"
         update: yes
       tags:
-        - deploy
+        - repo 
       vars:
         repo:
           - clowdops.net
