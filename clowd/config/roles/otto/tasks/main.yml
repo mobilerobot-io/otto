@@ -4,32 +4,32 @@
   file: 
     path: /home/{{ ottouser }}/.ssh
     state: directory
-    owner: {{ ottouser }}
-    group: {{ ottogroup }}
+    owner: "{{ ottouser }}"
+    group: "{{ ottogroup }}"
     mode: 0700
 
 - name: Copy new private key to host
   copy:
-    src: {{ srcpvtkey }}
-    dest: {{ dstpvtkey }}
-    owner: {{ ottouser }}
-    group: {{ ottogroup }}
+    src: "{{ srcpvtkey }}"
+    dest: "{{ dstpvtkey }}"
+    owner: "{{ ottouser }}"
+    group: "{{ ottogroup }}"
     mode: 0600
 
 - name: Copy new private key to host
   copy:
-    src: {{ srcpubkey }}
-    dest: {{ dstpubkey }}
-    owner: {{ ottouser }}
-    group: {{ ottogroup }}
+    src: "{{ srcpubkey }}"
+    dest: "{{ dstpubkey }}"
+    owner: "{{ ottouser }}"
+    group: "{{ ottogroup }}"
     mode: 0644
 
-# - name: Pull this repo on this new
-#   remote_user: otto
-#   git:
-#     repo: git@github.com:mobilerobot-io/clowdops.net
-#     dest: clowdops.net
-#     update: yes
-#     tags:
-#       - deploy
-#     become: yes
+- name: Pull the otto repo on this new vm
+  remote_user: otto
+  git:
+    repo: git@github.com:mobilerobot-io/clowdops.net
+    dest: /srv/www/clowdops.net
+    update: yes
+  tags:
+    - repo
+

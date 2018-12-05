@@ -6,31 +6,31 @@ vag = $(bindir)/vagrant
 ans = $(bindir)/ansible
 
 status:
-	make -C loca $@
-	make -C infra $@
-	make -C sites $@
+	$(MAKE) -C loca $@
+	$(MAKE) -C infra $@
+	$(MAKE) -C sites $@
 
 local:
 	$(vag) up
 
 otto:
-	make -C otto $@
+	$(MAKE) -C otto $@
 
 provision: otto
-	make -C loca $@	
-	make -C infra $@
-	make -C sites $@
+	$(MAKE) -C loca $@	
+	$(MAKE) -C infra $@
+	$(MAKE) -C sites $@
 
 config:
-	make -C loca $@	
-	make -C infra $@
-	make -C sites $@
+	$(MAKE) -C loca $@	
+	$(MAKE) -C infra $@
+	$(MAKE) -C sites $@
 	vagrant provision
 
 destroy:
-	make -C loca $@	
-	make -C infra $@
-	make -C sites $@
+	$(MAKE) -C loca $@	
+	$(MAKE) -C infra $@
+	$(MAKE) -C sites $@
 
 clean:
 	rm -rf *~ 

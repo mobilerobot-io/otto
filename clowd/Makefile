@@ -1,7 +1,10 @@
 dirs = prov config destroy
 
+echo:
+	echo $< $@
+
 prov:
-	make -C prov $@
+	make -C $< $@
 
 config:
 	make -C config $@
@@ -18,3 +21,5 @@ clean:
 	rm -rf *~ tmp
 	make -C prov $@
 	make -C config $@
+
+.PHONY: prov

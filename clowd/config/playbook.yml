@@ -12,24 +12,30 @@
         cache_valid_time: 3600
 
   roles:
-    - otto
-    - nginx
+    - common
+    - user
 
   tasks:
-    - import_tasks: tasks/common.yml
-    - import_tasks: tasks/user.yml
+    - name: All Done!
+      debug:
+        msg: "That's all folks!"
 
-      # otto
-    - name: Create the stage directory
-      file:
-        path: /srv/stage/
-        state: directory
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0755
+- hosts: otto
+  remote_user: root
 
-    - name: Add this hosts keys to otto
-      authorized_key:
-        user: otto
-        state: present
-        key: "{{ lookup('file', '/Users/rusty/.ssh/id_rsa.pub') }}"
+  vars_files:
+    - vars.yml
+
+  roles:
+    - otto
+    - go
+
+- hosts: nginx
+  remote_user: root
+  
+  vars_files:
+    - vars.yml
+
+  roles:
+    - nginx
+    - sites

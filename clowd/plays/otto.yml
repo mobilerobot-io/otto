@@ -1,9 +1,0 @@
----
-- hosts: otto
-  remote_user: otto
-
-  vars_files:
-    - vars.yml
-
-  tasks:
-    - import_tasks: tasks/go.yml
