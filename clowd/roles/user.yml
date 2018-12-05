@@ -1,3 +1,4 @@
+# TODO: turn the owner and group names into variables
 ---
     - name: Create otto
       user:

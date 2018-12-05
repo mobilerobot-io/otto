@@ -12,13 +12,19 @@
         site:
           - {{ domain }}
 
-
       file:
         src: /etc/nginx/sites-available{{ site }}
         dest: /etc/nginx/sites-enabled{{ site }}
         state: link
-
       tags:
         - vhost
-    
+        
+    - name: chown of /srv/www
+      file:
+        path: /srv/www
+        owner: otto
+        group: otto
+        state: directory
+
+
         
