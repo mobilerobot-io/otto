@@ -1,0 +1,15 @@
+---
+
+- name: Copy clowdops.net to the www servers
+  git:
+    repo: git@github.com:mobilerobot-io/clowdops.net
+    dest: /srv/stage/clowdops.net
+  tags:
+    - repo
+
+- name: Move the site from the above repo to the server
+  file:
+    src: /srv/stage/clowdops.net/public
+    dest: /srv/www/clowdops.net
+  tags:
+    - repo

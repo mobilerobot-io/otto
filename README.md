@@ -7,12 +7,13 @@ monitoring site up and running.
 
 The contents of this directory are as follows:
 
-- README.md: you are reading this file (tell you what's what)
-- Makefile ~ start infra, check status and destroy
-- Vagrantfile ~ start a local Virtualbox net with otto and nginx
-- infra ~ provision & config the clowdops hosting site
-- sites ~ sites that will be hosted by this hosting entity
-- src ~ source code for otto
+- README.md		~ you are reading this file (tell you what's what)
+- Makefile		~ runs all build, config, and infra updates
+- Vagrantfile	~ provision vagrant / virtual box test env 
+- clowd			~ image index, provision, cfgmgmt, monitor, ci/cd
+- images		~ images created by packer for clowd
+- sites			~ sites being monitored by clowd
+- src			~ source for otto
 
 ## Status ~ Checking Things Out
 
