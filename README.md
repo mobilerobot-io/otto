@@ -7,36 +7,70 @@ monitoring site up and running.
 
 The contents of this directory are as follows:
 
-- README.md		~ you are reading this file (tell you what's what)
-- Makefile		~ runs all build, config, and infra updates
-- Vagrantfile	~ provision vagrant / virtual box test env 
-- clowd			~ image index, provision, cfgmgmt, monitor, ci/cd
-- images		~ images created by packer for clowd
-- sites			~ sites being monitored by clowd
-- src			~ source for otto
+- README.md	~ you are reading this file (tell you what's what)
+- Makefile	~ runs all build, config, and infra updates
+- Vagrantf..~ provision vagrant / virtual box test env 
+- config	~ ansible = configuration management
+- doc		~ hugo = documentation
+- etc		~ TODO
+- img		~ packer = duplicate provider images
+- inv		~ ansible = inventory for various situations
+- prov		~ terriform = provision application resources
+- src		~ sources for otto the helper
 
 ## Workflow 
 
-### 0. Golden Images ~ Packer
+> status can be used at any time to see where we are at.
 
-Basically creating applicances of our _"Golden Images"_.  Here are a
-list of appliances we would use.
+Status will give us an overview of:
 
-> Use Packer to create "Golden images"
+- _app_ ~ plan infra, pick images, software & providers
+- _img_ ~ golden images required by app to all providers
+- _inv_ ~ inventories we have per provider
+- _prov_ ~ apps defined and status of provisioning
+- _config_ ~ configuration status of providers
+
+### 0. Images 
+
+Packer will be used to create standard or _Golden Images_ for things
+like nginx servers, elk stack, databases, etc.
+
+Packer will ensure our providers: DO, GCP, Vagrant, Docker, CloudStack
+all have the same version of nginx server (with all same software
+configruation, etc.)
+
+> This saves a tremendous amount of configuration time!
+
+This is a short list of Images that we will benefit from having
+pre-created. 
 
 - nginx server	~ web server 
 - haproxy		~ load balancing
 - otto			~ build server and monitor
 - clowd			~ box of clowds
 
-> Packer creates identicle images to run on multiple providers. (DO,
-> GCP, Vagrant, AWS, etc)
+#### Expected Outcomes
 
-### 1. Provision Clowd ~ Terraform
+1. App network
+
+
+### 1. Provision Infrastructure ~ Terraform
+
+Terraform will a given application (network infra), determine the
+resources that do exist, and do not exist.  Terraform will 
+
+= create the resources that do not exit
+- assasinate tainted resources and build new resource (server) from
+  scratch. 
+
+- terraform is finished when all resources
+  - have been created
+  - up and running
 
 Terraform will create the desired clowd infra structure. It will also
 check inventory and correct problems when they are detected.
 
+- multi clowd
 - create configured infra structure
 - ensure configured infra structure is healthy, complete and correct
 - change management, all additions and deletions of infra will be
@@ -45,7 +79,7 @@ check inventory and correct problems when they are detected.
 > Terraform brings a site to life from a configuration file(s).  It
 > ensures that site is correct when run.
   
-### 2. Config Clowd ~ Ansible 
+### 2. Config Infrastructure &  ~ Ansible 
 
 Configuration management with Ansible. Based on the inventory we give
 ansible (or it snarfs up from a program we give it), ansible will

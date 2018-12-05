@@ -7,7 +7,10 @@ status:
 up: init plan apply
 
 init plan apply destroy:
-	$(tfv) $@
+	$(tfv) $@ -input=false
+
+apply:
+	$(tfv) $@ -input=false -auto-approve
 
 clean:
 	rm *~

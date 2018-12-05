@@ -17,7 +17,7 @@ resource "digitalocean_droplet" "otto" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${digitalocean_droplet.otto.ipv4_address} > ../inv/do/hosts"
+    command = "echo ${digitalocean_droplet.otto.ipv4_address} > ../inv/do/host-otto"
   }
 
   provisioner "remote-exec" {

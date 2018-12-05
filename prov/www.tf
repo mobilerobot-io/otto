@@ -17,7 +17,7 @@ resource "digitalocean_droplet" "w01" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${digitalocean_droplet.w01.ipv4_address} >  ../inv/clowd/do/hosts-w01"
+    command = "echo ${digitalocean_droplet.w01.ipv4_address} >  ../inv/do/hosts-w01"
   }
 
   provisioner "remote-exec" {

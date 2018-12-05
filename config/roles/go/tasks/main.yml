@@ -1,13 +1,12 @@
 ---
-- name: Download the lasteversion and install go
-  get_url:
-    url: https://dl.google.com/go/{{gotar}}
-    dest: /tmp
-
-- name: Extract to into target directory
+- name: Install {{gotar}}
   unarchive:
-    src: /tmp/{{gotar}}
-    dest: /usr/local/
+    src: https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
+    dest: /usr/local
+  tags:
+    - go
 
 - name: Add to path to otto
   command: echo 'export PATH=$PATH:/usr/local/go/bin' >> /home/otto/.profile
+  tags:
+    - go

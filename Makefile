@@ -8,41 +8,13 @@ hugo= $(bindir)/hugo
 providers = do vagrant
 
 status: 
-	$(print-status) $(providers)
-
-images:
-	@echo TODO make images
-
-prov:
-	$(MAKE) -C $< $@
-
-config:
-	$(MAKE) -C $@ $< 
-
-test:
-	@echo TODO make test
-
-stage:
-	@echo TODO make stage
-
-prod:
-	@echo TODO make prod
-
-destroy:
-	$(MAKE) -C prov $<
-
-.PHONY: images status prov
+	@echo "Vagrant hosts status..."
+	@echo "-----------------------"
+	@vagrant status | grep virtualbox
 
 up:
-	vagrant up
-
-otto:
-	$(MAKE) -C otto $@
+	$(vag) up
 
 
-define print-status = 
-$(MAKE) -C images $@
-$(MAKE) -C prov $@
-$(MAKE) -C config $@
-endef
-
+clean:
+	rm -rf *~

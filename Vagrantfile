@@ -17,25 +17,21 @@ Vagrant.configure("2") do |config|
   config.vm.network "public_network"
 
   # Make sure the local repo is there
-  # config.vm.synced_folder "../clops/plays/", "/srv/plays
+  # config.vm.synced_folder "config", "/srv/config"
 
   # virtualbox is the "provider"
   config.vm.provider "virtualbox" do |vb|
-    # Customize the amount of memory on the VM:
     vb.memory = "1024"  # make this smaller for production
     vb.linked_clone = true
   end
 
   # Ansible
-  config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "vagrant.yml"
-    ansible.provisioning_path = "/srv/otto/plays"
-    ansible.install = true
-    ansible.install_mode = "pip"
+  config.vm.provision "ansible" do |ansible|
+    ansible.playbook = "config/vagrant.yml"
   end
 
   # otto is our application
-  config.vm.define "o02" do |app|
+  config.vm.define "o01" do |app|
     app.vm.hostname = "o02.local"
     app.vm.network :private_network, ip: "10.24.13.2"
   end

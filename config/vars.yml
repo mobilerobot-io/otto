@@ -21,7 +21,7 @@ gohome: /home/otto/go
 govers: 1.11.2
 goos:   linux
 goarch: amd64
-gotar:  go{{govers}}.{{goos}}-{{arch}}.tar.gz
+gotar: https://dl.google.com/go/go1.11.2.linux-amd64.tar.gz
   
 websites:
   - hboilerfootball.org
