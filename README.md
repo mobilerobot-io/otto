@@ -10,9 +10,26 @@ The contents of this directory are as follows:
 - README.md: you are reading this file (tell you what's what)
 - Makefile ~ start infra, check status and destroy
 - Vagrantfile ~ start a local Virtualbox net with otto and nginx
+- infra ~ provision & config the clowdops hosting site
+- sites ~ sites that will be hosted by this hosting entity
+- src ~ source code for otto
 
+## Status ~ Checking Things Out
 
-## Building and Checking Status
+This repository is a loaded gun, it is very effective at bringing up
+"sites", put in the wrong (ignorant) hands, it can easily do damage to
+a production deployment, running test deployments and leaving things
+running, cranking up un-necessary bills.
+
+This software is very powerful, use it carefully and you will do
+things (in a moment) that are amazing!
+
+> make status to see what is going on ...
+
+Make status will let you know what has and has not been provisioned,
+the health of this site or app.
+
+### Provision, Configure, Test, Deploy
 
 ```bash
 $ make prov		# provision sites (terraform or vagrant)
@@ -21,27 +38,22 @@ $ make status   # quick health check (tf & ans, vag)
 $ make destroy  # stop and terminate all resources
 ```
 
-## Inventory
+## Inventory, Domains and Sites
+
+Basic CRUD operations are provided for each of the _stores_ Inventory,
+Domains and Sites.
 
 ```
-- get /inv
-- get /inv/{item}
-- put /inv/{item}
-- post /inv/{item} body=json
-- delete /inv/{item}
+- get		/inv
+- get		/inv/{item}
+- post		/inv/{item}
+- post		/inv/{item} body=json
+- delete	/inv/{item}
 ```
 
-## Domains
+Additional calls available:
 
-```
-- get /dom/
-- get /dom/{domain}
-- put /dom/{domain}
-- post /dom/{domain}
-- delete /dom/{domain}
-```
-
-### Domains DNS
+### DNS Modifications
 
 ```
 - get /dom/ns/{domain}  => get nameservers for domain
@@ -53,73 +65,12 @@ $ make destroy  # stop and terminate all resources
 - delete /dom/dns/{domain}
 ```
 
-## Sites
-
-```
-- get /site -> site list
-- get /site/{site} -> a single detailed site
-- put /site/{site}?params="..."
-- delete /site/{site}
-```
-
 ## Walker
 ```
-- get /site/walk/					- get list of recent site walks
-- get /site/walk/{site}/			- return a list of walkids and the last walk
-- get /site/walk/{site}/{walkid}	- return the walk the the specific id
-- put /site/walk/{site}?params="."  - schedule walk params
+- get	/site/walk/					- get list of recent site walks
+- get	/site/walk/{site}/			- return a list of walkids and the last walk
+- get	/site/walk/{site}/{walkid}	- return the walk the the specific id
+- put	/site/walk/{site}?params="."  - schedule walk params
 - delete /site/walk/{site}			- git rid of the walkers
 ```  
 
-
-1. Inventory of online resources
-1. Provision resources for applications with Terraform
-2. Configuration Management with Ansible
-3. Site / Application monitoring with ELK stack, influxdb and
-   prometheus 
-4. Dashboard to insights
-
-## Sections
-
-1. Inventory
-   1. Physical Inventory
-   1. Online Inventory
-
-2. Domains
-   1. Domains registration
-   2. renewals & expiration monitoring
-   3. DNS records
-
-3. Sites 
-   1. provision
-   2. configuration management
-   3. monitoring for health and performance
-   4. ci/cd
-
-## WorkFlow ~ Provision the Application
-
-Terraform workflow level of abstraction, not resource level of
-abstraction. 
-
-## Infrastructure As Code
-
-1. 100% Automated, every run you get exact same results
-2. Version Controlled - test, track, rollback
-3. Annotated history of changes
-4. Repeatable ~ spin up old versions, new versions
-5. Replicatable ~ as many copies of your infrastructure as you can
-   afford
-6. Scalable and elastic ~ grows exactly how you do
-
-## Parallelize and Democratize Development
-
-This model allows different people and organizations to take ownership
-of various parts of a bigger system.  Loosley connected interfaces
-provide for a tremendous amount of flexibility amoung different parts
-of an organization, or across organizations even.
-
-### Larger Application into Microservices
-
-Each microservice can be responsible for provisioning its own
-infrastructure and customizing accordingly, yet still stick to project
-patterns and conventions for transferability and reusability.

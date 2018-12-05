@@ -15,10 +15,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.hostname = "loca.local"
   config.vm.post_up_message = "Run 'vagrant ssh' and do what it says "
+  config.vm.network "forwarded_port", guest: 80, host: 1001
   config.vm.network "public_network"
 
   # Make sure the local repo is there
-  config.vm.synced_folder "../infra/plays/", "/srv/otto/infra/plays/"
+  config.vm.synced_folder "../infra/plays/", "/srv/otto/plays/"
 
   # virtualbox is the "provider"
   config.vm.provider "virtualbox" do |vb|
@@ -46,14 +47,12 @@ Vagrant.configure("2") do |config|
   config.vm.define "o02" do |app|
     app.vm.hostname = "o02.local"
     app.vm.network :private_network, ip: "10.24.13.2"
-    app.vm.network "forwarded_port", guest: 80, host: 9991
   end
 
   # otto is our application
   config.vm.define "w01" do |app|
     app.vm.hostname = "w01.local"
     app.vm.network :private_network, ip: "10.24.13.12"
-    app.vm.network "forwarded_port", guest: 80, host: 9992
   end
 
   ## Additional hosts can be defined here ...
