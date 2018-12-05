@@ -18,3 +18,4 @@
 *.retry
 .vagrant
 tmp
+packer_cache
