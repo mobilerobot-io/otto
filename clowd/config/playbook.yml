@@ -11,8 +11,9 @@
         update_cache: yes
         cache_valid_time: 3600
 
-  handlers:
-    - import_tasks: handlers/handlers.yml
+  roles:
+    - otto
+    - nginx
 
   tasks:
     - import_tasks: tasks/common.yml
