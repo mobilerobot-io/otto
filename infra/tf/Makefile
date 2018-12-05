@@ -5,3 +5,6 @@ status:
 
 clean:
 	rm *~
+
+destroy:
+	./tfvars destroy
