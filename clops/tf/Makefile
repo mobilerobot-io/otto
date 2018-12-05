@@ -1,10 +1,20 @@
 tf = /usr/local/bin/terraform
+tfv = ./tfvars
 
 status:
 	$(tf) show
 
-clean:
-	rm *~
+init:
+	$(tfv) init
+
+plan:
+	$(tfv) plan
+
+apply:
+	$(tfv) apply
 
 destroy:
-	./tfvars destroy
+	$(tfv) destroy
+
+clean:
+	rm *~
