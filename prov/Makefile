@@ -2,17 +2,23 @@ tf = /usr/local/bin/terraform
 tfv = ./tfvars
 
 status:
-	$(tf) show
+	@echo ""
+	@echo "provisions"
+	@echo "------------------------------"
+	@$(tf) show
 
 up: init plan apply
 
-init plan apply destroy:
+init plan:
 	$(tfv) $@ -input=false
 
-apply:
+apply destroy:
 	$(tfv) $@ -input=false -auto-approve
 
 clean:
 	rm *~
+
+check:
+	doctl compute droplet list
 
 .PHONY: up init plan apply
