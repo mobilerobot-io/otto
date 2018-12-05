@@ -1,0 +1,12 @@
+server {
+       listen {{ thisport }};
+       listen [::]:{{ thisport }};
+
+       server_name {{ website }};
+       root /srv/www/{{ website }};
+       index index.html;
+
+       location / {
+       		try_files $uri $uri/ =404;
+	}	 
+}

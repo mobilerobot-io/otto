@@ -1,0 +1,8 @@
+---
+- hosts: nginx
+
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - import_tasks: tasks/nginx.yml

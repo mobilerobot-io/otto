@@ -1,0 +1,5 @@
+---
+
+- name: Just something to keep warnings quite
+  debug:
+    msg: TODO add nginx and ntp restart handlers

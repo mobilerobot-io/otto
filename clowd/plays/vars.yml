@@ -1,0 +1,30 @@
+---
+domain: clowdops.net
+
+ottouser: otto
+ottogroup:  otto
+
+srcpubkey: tmp/id_rsa.pub
+dstpubkey: /home/otto/.ssh/id_rsa.pub
+
+srcpvtkey: tmp/id_rsa
+dstpvtkey: /home/otto/.ssh/id_rsa
+
+# used in our nginx config
+thisport: 80
+
+# installing go on otto
+godir: /usr/local/go
+gohome: /home/otto/go
+govers: 1.11.2
+goos:   linux
+goarch: amd64
+gotar:  go{{govers}}.{{goos}}-{{arch}}.tar.gz
+  
+websites:
+  - hboilerfootball.org
+  - gardenpassages.com
+  - sierrahydrographics.com
+  - mojavetropicofilming.com
+  - skillcraft.com
+  
