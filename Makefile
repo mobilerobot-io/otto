@@ -1,72 +1,48 @@
-dirs = src loca infra sites
-
 bindir = /usr/local/bin
 
 vag = $(bindir)/vagrant 
 ans = $(bindir)/ansible
-tf  = $(bindir)/tf
+tf  = $(bindir)/terraform
+hugo= $(bindir)/hugo
 
-define print-status = 
-$(MAKE) -C images $@
-$(MAKE) -C prov $@
-$(MAKE) -C config $@
-endef
+providers = do vagrant
 
-status:
-	$(print-status)
+status: 
+	$(print-status) $(providers)
 
 images:
-	$(MAKE) -C images $@
+	@echo TODO make images
 
 prov:
-	$(MAKE) -C prov $<
+	$(MAKE) -C $< $@
 
 config:
-	$(MAKE) -C config
+	$(MAKE) -C $@ $< 
 
 test:
-	$(MAKE) -C test
+	@echo TODO make test
 
 stage:
-	$(MAKE) -C stage
+	@echo TODO make stage
 
 prod:
-	$(MAKE) -C prod
-	
+	@echo TODO make prod
+
 destroy:
-	$(MAKE) -C destory
+	$(MAKE) -C prov $<
 
 .PHONY: images status prov
 
 up:
 	vagrant up
 
-destroy:
-	vagrant destroy
-
 otto:
 	$(MAKE) -C otto $@
 
-provision: otto
-	$(MAKE) -C loca $@	
-	$(MAKE) -C infra $@
-	$(MAKE) -C sites $@
 
-config:
-	$(MAKE) -C loca $@	
-	$(MAKE) -C infra $@
-	$(MAKE) -C sites $@
-	vagrant provision
-
-destroy:
-	$(MAKE) -C loca $@	
-	$(MAKE) -C infra $@
-	$(MAKE) -C sites $@
-
-clean:
-	rm -rf *~ 
-
-.PHONY: otto up provision status
-status:
-	vagrant status
+define print-status = 
+$(MAKE) -C images $@
+$(MAKE) -C prov $@
+$(MAKE) -C config $@
+endef
 

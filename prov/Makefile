@@ -4,17 +4,12 @@ tfv = ./tfvars
 status:
 	$(tf) show
 
-init:
-	$(tfv) init
+up: init plan apply
 
-plan:
-	$(tfv) plan
-
-apply:
-	$(tfv) apply
-
-destroy:
-	$(tfv) destroy
+init plan apply destroy:
+	$(tfv) $@
 
 clean:
 	rm *~
+
+.PHONY: up init plan apply

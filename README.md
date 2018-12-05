@@ -15,6 +15,94 @@ The contents of this directory are as follows:
 - sites			~ sites being monitored by clowd
 - src			~ source for otto
 
+## Workflow 
+
+### 0. Golden Images ~ Packer
+
+Basically creating applicances of our _"Golden Images"_.  Here are a
+list of appliances we would use.
+
+> Use Packer to create "Golden images"
+
+- nginx server	~ web server 
+- haproxy		~ load balancing
+- otto			~ build server and monitor
+- clowd			~ box of clowds
+
+> Packer creates identicle images to run on multiple providers. (DO,
+> GCP, Vagrant, AWS, etc)
+
+### 1. Provision Clowd ~ Terraform
+
+Terraform will create the desired clowd infra structure. It will also
+check inventory and correct problems when they are detected.
+
+- create configured infra structure
+- ensure configured infra structure is healthy, complete and correct
+- change management, all additions and deletions of infra will be
+  handled by the terraform.
+  
+> Terraform brings a site to life from a configuration file(s).  It
+> ensures that site is correct when run.
+  
+### 2. Config Clowd ~ Ansible 
+
+Configuration management with Ansible. Based on the inventory we give
+ansible (or it snarfs up from a program we give it), ansible will
+ensure all servers (and groups of servers) are configured and
+operating correctly.
+
+People like to point out that Ansible is **idempotent** (more
+acurrately, it is, if the modules it uses are *idempotent*, its
+modules should strive to be, idempontent)
+
+> Ansible, when run will scan existing configuration state of
+> network.  It will correct differences in network configuration and
+> observed state.
+
+Changes to configurations of any server, application, etc are handled
+by ansible.
+
+### 3. Bootstrap
+
+1. Determine when complete site has been brought up, ensure that all of
+our webservers are operational as well as our load balancer
+(haproxy). 
+
+2. Ensure www servers have all sites, nginx servers are running and
+   accessable. 
+   
+3. loadbalancer is doing its job
+
+### 4. CI/CD ~ Software Changes Automatically Deployed
+
+Software changes (merges / commits to master) invoke an event that
+causes a pipeline to be invoked that will pull the latest image,
+validate the changes then deploy to server.
+
+### 5. Monitor & Logging ~ Hunting Bugs with ELK
+
+Install ELK stack and start benefiting from logging.
+
+```bash
+$ export CLOWD_PROVIDERS="do, gcp, vagrant"
+$ make images
+$ make provision
+$ make config
+$ make test
+$ make status 
+$ make destroy
+```
+
+The "lifecycle" of every _site_ or _application_ comes in stages (or
+transitions from one state to another at times).  These are the
+"lifecycle stages" that clowd goes through and what it does.
+
+Clowd very much takes the "site" or "application" POV when the
+configuration files are created.  That means that infrastructure is
+aquired as needed.
+
+
 ## Status ~ Checking Things Out
 
 This repository is a loaded gun, it is very effective at bringing up
@@ -29,15 +117,6 @@ things (in a moment) that are amazing!
 
 Make status will let you know what has and has not been provisioned,
 the health of this site or app.
-
-### Provision, Configure, Test, Deploy
-
-```bash
-$ make prov		# provision sites (terraform or vagrant)
-$ make config	# run configuration management (ansible)
-$ make status   # quick health check (tf & ans, vag)
-$ make destroy  # stop and terminate all resources
-```
 
 ## Inventory, Domains and Sites
 
