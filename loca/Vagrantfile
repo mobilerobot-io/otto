@@ -1,25 +1,23 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# For a complete reference, please see the online documentation at
-# https://docs.vagrantup.com.
-
-# Every Vagrant development environment requires a box. You can search for
-# boxes at https://vagrantcloud.com/search.
+# docs: https://docs.vagrantup.com
+# search for boxes at: https://vagrantcloud.com/search
 
 Vagrant.configure("2") do |config|
-  # The most common configuration options are documented and commented below.
 
+  # go with ub18 server for now
   config.vm.box = "bento/ubuntu-18.04"
   config.ssh.insert_key = false
 
+  # our local name is loca
   config.vm.hostname = "loca.local"
   config.vm.post_up_message = "Run 'vagrant ssh' and do what it says "
   config.vm.network "forwarded_port", guest: 80, host: 1001
   config.vm.network "public_network"
 
   # Make sure the local repo is there
-  config.vm.synced_folder "../infra/plays/", "/srv/otto/plays/"
+  # config.vm.synced_folder "../clops/plays/", "/srv/plays
 
   # virtualbox is the "provider"
   config.vm.provider "virtualbox" do |vb|
@@ -28,20 +26,13 @@ Vagrant.configure("2") do |config|
     vb.linked_clone = true
   end
 
-  # ansible is the "provisioner"
-  # config.vm.provision "ansible" do |ansible|
+  # Ansible
   config.vm.provision "ansible_local" do |ansible|
-    ansible.playbook = "site.yml"
-    ansible.provisioning_path = "/srv/otto/infra/plays"
+    ansible.playbook = "vagrant.yml"
+    ansible.provisioning_path = "/srv/otto/plays"
     ansible.install = true
     ansible.install_mode = "pip"
   end
-
-  # # otto is our application
-  # config.vm.define "otto" do |app|
-  #   app.vm.hostname = "otto.test"
-  #   app.vm.network :private_network, ip: "10.24.13.11"
-  # end
 
   # otto is our application
   config.vm.define "o02" do |app|
@@ -54,16 +45,4 @@ Vagrant.configure("2") do |config|
     app.vm.hostname = "w01.local"
     app.vm.network :private_network, ip: "10.24.13.12"
   end
-
-  ## Additional hosts can be defined here ...
-  # config.vm.define "app2" do |app|
-  #   app.vm.hostname = "o1-app2.test"
-  #   app.vm.network :private_network, ip: "192.168.60.5"
-  # end
-
-  # config.vm.define "haproxy" do |app|
-  #   app.vm.hostname = "o1-haproxy.test"
-  #   app.vm.network :private_network, ip: "192.168.60.6"
-  # end
-
 end
