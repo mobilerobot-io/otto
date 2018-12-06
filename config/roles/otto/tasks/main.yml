@@ -11,14 +11,3 @@
     - repo
     - otto
 
-- name: Pull down the sites to launch on server
-  git:
-    repo: git@github.com:mobilerobot-io/clowdops.net
-    dest: /srv/src/clowdops.net
-    update: yes
-    accept_hostkey: yes
-    #key_file: "{{ srcpvtkey }}"
-  tags:
-    - repo
-    - clowd
-

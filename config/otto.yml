@@ -1,12 +1,14 @@
 ---
-- hosts: localhost
-  connection: local
-  gather_facts: false
+- hosts: otto
+  remote_user: root
+  become: yes
 
   vars_files:
     - vars.yml
 
   roles:
-    - otto
     - go
-
+    - terraform
+    - ansible
+    - packer
+    - otto
