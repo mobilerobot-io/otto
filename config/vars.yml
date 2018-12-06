@@ -1,6 +1,9 @@
 ---
 domain: clowdops.net
 
+remote_user: vagrant
+become: yes
+
 ottouser: otto
 ottogroup: otto
 

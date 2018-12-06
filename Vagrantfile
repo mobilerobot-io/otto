@@ -33,7 +33,7 @@ Vagrant.configure("2") do |config|
 
   # otto is our application
   config.vm.define "o01" do |app|
-    app.vm.hostname = "o02.local"
+    app.vm.hostname = "o01.local"
     app.vm.network :private_network, ip: "10.24.13.2"
   end
 

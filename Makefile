@@ -11,7 +11,9 @@ status:
 	@echo "Vagrant hosts status..."
 	@echo "-----------------------"
 	@vagrant status | grep virtualbox
-
+	@echo "Digital Ocean Droplets..."
+	@echo "-----------------------"
+	@doctl compute droplet list | grep 01
 
 up:
 	$(vag) up

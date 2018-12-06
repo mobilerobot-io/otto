@@ -1,37 +1,43 @@
 # TODO: turn the owner and group names into variables
 ---
-    - name: Create otto
-      user:
-        name: otto
-        comment: OttO Maker
-        groups: adm,sudo
+- name: Create otto
+  user:
+    name: "{{ ottouser }}"
+    comment: OttO Maker
+    groups: adm,sudo
+    shell: /bin/bash
+    
+- name: Create the local ssh directory
+  file:
+    path: /home/{{ ottouser }}/.ssh
+    state: directory
+    owner: "{{ ottouser }}"
+    group: "{{ ottogroup }}"
+    mode: 0700
+  tags: keys
 
-    - name: Create the local ssh directory
-      file:
-        path: /home/{{ ottouser }}/.ssh
-        state: directory
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0700
-      tags: keys
+- name: Copy private key to host
+  copy:
+    remote_src: yes
+    src: "{{ srcpvtkey }}"
+    dest: "{{ dstpvtkey }}"
+    owner: "{{ ottouser }}"
+    group: "{{ ottogroup }}"
+    mode: 0600
+  tags: keys
 
-    - name: Copy private key to host
-      copy:
-        # remote_src: yes # for vagrant
-        src: "{{ srcpvtkey }}"
-        dest: "{{ dstpvtkey }}"
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0600
-      tags: keys
-
-    - name: Copy public key to host
-      copy:
-        # remote_src: yes - for vagrant
-        src: "{{ srcpubkey }}"
-        dest: "{{ dstpubkey }}"
-        owner: "{{ ottouser }}"
-        group: "{{ ottogroup }}"
-        mode: 0644
-      tags: keys
+- name: Copy public key to host
+  copy:
+    src: "{{ srcpubkey }}"
+    dest: "{{ dstpubkey }}"
+    owner: "{{ ottouser }}"
+    group: "{{ ottogroup }}"
+    mode: 0644
+  tags: keys
       
+- name: Copy pub key to hosts
+  authorized_key:
+    user: otto
+    state: present
+    key: https://github.com/rustyeddy.keys
+  ignore_errors: true

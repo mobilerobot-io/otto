@@ -1,10 +1,10 @@
-### striaght outta sight
 ---
 - hosts: all
   remote_user: root
-  vars_file:
-    - vars.yml
+  become: yes
 
+  vars_files:
+    - vars.yml
   pre_tasks:
     - name: APT ~ update the apt-cache
       apt:
@@ -16,8 +16,6 @@
 
 - hosts: otto
   remote_user: root
-  vars_file:
-    - vars.yml
   roles:
     - otto
     - go

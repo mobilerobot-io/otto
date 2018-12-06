@@ -1,0 +1,8 @@
+## Load up the site(s) on the nginx machine(s)
+---
+- hosts: nginx
+  remote_user: otto 
+  become: yes
+  roles:
+    - nginx
+    - sites
