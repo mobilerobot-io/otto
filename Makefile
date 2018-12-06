@@ -12,9 +12,12 @@ status:
 	@echo "-----------------------"
 	@vagrant status | grep virtualbox
 
+
 up:
 	$(vag) up
 
+destroy:
+	$(vag) $@
 
 clean:
 	rm -rf *~

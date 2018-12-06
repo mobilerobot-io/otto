@@ -1,0 +1,12 @@
+---
+hosts: otto
+remote_user: local
+
+vars_files:
+  - vars.yml
+
+roles:
+  - go
+
+tasks:
+  role

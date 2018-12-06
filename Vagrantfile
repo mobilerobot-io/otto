@@ -13,8 +13,9 @@ Vagrant.configure("2") do |config|
   # our local name is loca
   config.vm.hostname = "loca.local"
   config.vm.post_up_message = "Run 'vagrant ssh' and do what it says "
-  config.vm.network "forwarded_port", guest: 80, host: 1001
   config.vm.network "public_network"
+  # config.vm.network "forwarded_port", guest: 80, host: 1001
+
 
   # Make sure the local repo is there
   # config.vm.synced_folder "config", "/srv/config"
