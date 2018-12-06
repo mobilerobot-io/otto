@@ -22,7 +22,28 @@ The contents of this directory are as follows:
 
 > status can be used at any time to see where we are at.
 
-Status will give us an overview of:
+Basic workflow
+
+0. Plans written
+1. Images selected ~ size ~ software ~ configs
+
+2. Provision ~ All resources created (that did not already exist)
+3. Bootstrap / Provision ~ Images are accessible ssh / keys
+4. Configuration 
+
+5. Verification and Monitoring
+6. Respond to problems / Fix bogs
+
+7. Production deployment
+
+7. Develop Features ~ dev
+8. Verify development and bug fixes
+9. Deploy changes
+
+10. Any Problems?  If so goto 5. 
+11. Any configuraiton changes?  If so goto 4.
+12. Any infrastructure changes?  If so goto 1.
+
 
 - _app_ ~ plan infra, pick images, software & providers
 - _img_ ~ golden images required by app to all providers
