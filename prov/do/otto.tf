@@ -1,12 +1,12 @@
 resource "digitalocean_droplet" "otto" {
-  name = "otto"
+  name = "otto-${var.otto_name}"
   image = "ubuntu-18-04-x64"
   region = "sfo2"
   size = "s-1vcpu-1gb"
 
   private_networking = true
   ssh_keys = [
-    "${var.ssh_fingerprint}"
+   "${var.ssh_fingerprint}"
   ]
 
   connection {
@@ -20,13 +20,13 @@ resource "digitalocean_droplet" "otto" {
     command = "echo ${digitalocean_droplet.otto.ipv4_address} >> ${var.hostsfile}"
   }
 
-  # prime the pump by updating the software and adding otto
+n  # prime the pump by updating the software and adding otto
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
       "sudo apt-get -y install python"
-      "sudo adduser --system --shell /bin/bash --ingroup sudoers otto "
+      "sudo adduser --system --shell /bin/bash --ingroup sudoers ${var.ottoname}"
     ]
   }
 }

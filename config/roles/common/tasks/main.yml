@@ -12,6 +12,7 @@
   vars:
     pkg:
       - ntp
+      - make
       - python
       - python-apt
       - python-pycurl

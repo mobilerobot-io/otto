@@ -1,3 +1,5 @@
+allcmds = "get init plan apply"
+
 tf = /usr/local/bin/terraform
 tfv = ./tfvars
 
@@ -13,12 +15,17 @@ status:
 	@echo "--------------------------"
 	@doctl compute droplet list
 
-up: init plan apply
+.terraform:
+	@echo "terraform must download required plugins first"
+	$(tf) get
 
-init plan:
-	$(tfv) $@ -input=false $(provider)
+$(allcmds): .terraform
+	@echo ".terraform directory must exist first ..."
 
-apply destroy:
+up: $(allcmds)
+	@echo "Bringing up $(topo) on $(provider)..."
+	
+apply destroy: init
 	$(tfv) $@ -input=false -auto-approve $(provider)
 
 clean:

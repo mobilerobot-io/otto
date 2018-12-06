@@ -1,7 +1,7 @@
 ---
       
 - name: Pull the otto repo on this new vm
-  git:
+   git:
     repo: git@github.com:mobilerobot-io/otto
     dest: /srv/src/otto
     update: yes
@@ -10,4 +10,5 @@
   tags:
     - repo
     - otto
+
 

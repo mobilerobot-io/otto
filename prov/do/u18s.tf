@@ -1,12 +1,13 @@
-resource "digitalocean_droplet" "www" {
-  name = "www-#{wwwname}"
+# Create a ubuntu-18 server
+resource "digitalocean_droplet" "u18s" {
+  name = "u18s-${var.hostname}
   image = "ubuntu-18-04-x64"
   region = "sfo2"
   size = "s-1vcpu-1gb"
 
   private_networking = true
   ssh_keys = [
-    "${var.ssh_fingerprint}"
+   "${var.ssh_fingerprint}"
   ]
 
   connection {
@@ -16,21 +17,21 @@ resource "digitalocean_droplet" "www" {
     timeout = "2m"
   }
 
-  ## TODO - put
   provisioner "local-exec" {
-    command = "echo ${digitalocean_droplet.w01.ipv4_address} >>  ${var.hostsfile}"
+    command = "echo ${digitalocean_droplet.otto.ipv4_address} >> ${var.hostsfile}"
   }
 
+  # prime the pump by updating the software and adding otto
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
       "sudo apt-get -y install python"
-      "sudo adduser --system --shell /bin/bash --ingroup sudoers" otto
+      "sudo adduser --system --shell /bin/bash --ingroup sudoers otto "
     ]
   }
 }
 
-output "w01" {
-  value = "${digitalocean_droplet.w01.ipv4_address}"
+output "otto-ip" {
+  value = "${digitalocean_droplet.otto.ipv4_address}"
 }
