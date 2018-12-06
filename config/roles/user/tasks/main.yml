@@ -18,7 +18,6 @@
 
 - name: Copy private key to host
   copy:
-    remote_src: yes
     src: "{{ srcpvtkey }}"
     dest: "{{ dstpvtkey }}"
     owner: "{{ ottouser }}"
