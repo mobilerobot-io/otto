@@ -17,18 +17,20 @@ resource "digitalocean_droplet" "otto" {
   }
 
   provisioner "local-exec" {
-    command = "echo ${digitalocean_droplet.otto.ipv4_address} > ../inv/do/host-otto"
+    command = "echo ${digitalocean_droplet.otto.ipv4_address} >> ${var.hostsfile}"
   }
 
+  # prime the pump by updating the software and adding otto
   provisioner "remote-exec" {
     inline = [
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
       "sudo apt-get -y install python"
+      "sudo adduser --system --shell /bin/bash --ingroup sudoers otto "
     ]
   }
 }
 
-output "oTToIP" {
+output "otto-ip" {
   value = "${digitalocean_droplet.otto.ipv4_address}"
 }

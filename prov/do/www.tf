@@ -16,8 +16,9 @@ resource "digitalocean_droplet" "w01" {
     timeout = "2m"
   }
 
+  ## TODO - put
   provisioner "local-exec" {
-    command = "echo ${digitalocean_droplet.w01.ipv4_address} >  ../inv/do/hosts-w01"
+    command = "echo ${digitalocean_droplet.w01.ipv4_address} >>  ${var.hostsfile}"
   }
 
   provisioner "remote-exec" {
@@ -25,6 +26,7 @@ resource "digitalocean_droplet" "w01" {
       "export PATH=$PATH:/usr/bin",
       "sudo apt-get update",
       "sudo apt-get -y install python"
+      "sudo adduser --system --shell /bin/bash --ingroup sudoers"
     ]
   }
 }

@@ -5,9 +5,13 @@ tfv = ./tfvars
 
 status:
 	@echo ""
-	@echo " > " $(provider) $@
-	@echo "------------------------------"
+	@echo "Provider: " $(provider) $@
+	@echo "--------------------------"
 	@$(tf) show
+	@echo ""
+	@echo "Digital Ocean: "
+	@echo "--------------------------"
+	@doctl compute droplet list
 
 up: init plan apply
 
@@ -15,7 +19,7 @@ init plan:
 	$(tfv) $@ -input=false $(provider)
 
 apply destroy:
-	$(tfv) $@ -input=false -auto-approve
+	$(tfv) $@ -input=false -auto-approve $(provider)
 
 clean:
 	rm *~
