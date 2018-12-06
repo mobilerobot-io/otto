@@ -1,0 +1,17 @@
+---
+title: Blueprint for automated application lifecycle
+---
+
+> plan ::= { providers, inventory, network }
+> providers ::= { do, vagrant, gcp, aws, cloudstack, ... }
+> images ::= { ub18s-creds, arch-creds, alpine-creds }
+> inventory ::= { hosts, roles, variables, assets }
+> network ::= { topology, routers, domains, addresses, services }
+> services ::= { ipaddr, port } // aka ipaddr:port
+
+A blueprint, represented in YAML
+
+
+> I guess you can call that the app-lifecycle-schema.yml
+
+

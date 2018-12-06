@@ -1,57 +1,77 @@
-# otto
+# otto ~ The Problem Solver ~ 
 
-OttO handles a number of details regarding getting the clowdops
-monitoring site up and running.
+## TODO: Define Problem Otto Solves
 
-## Contents 
+- [Problem We Are Solving ](doc/problem-we-are-solving.md)
 
-The contents of this directory are as follows:
-
-- README.md	~ you are reading this file (tell you what's what)
-- Makefile	~ runs all build, config, and infra updates
-- Vagrantf..~ provision vagrant / virtual box test env 
-- config	~ ansible = configuration management
-- doc		~ hugo = documentation
-- etc		~ TODO
-- img		~ packer = duplicate provider images
-- inv		~ ansible = inventory for various situations
-- prov		~ terriform = provision application resources
-- src		~ sources for otto the helper
+## TODO: What is OttO
 
 ## Workflow 
 
 > status can be used at any time to see where we are at.
 
-Basic workflow
+Modern _DevOps_ workflow.  This is the proposed workflow.  This
+_workflow_ is really a _cycle_, a _chaotic cycle_, in other words,
+reality dictates that my tidy definition below will not always be
+orderly or complete.
 
-0. Plans written
-1. Images selected ~ size ~ software ~ configs
+Truth is, we will jump from milestone to milestone leaving a task here
+and there incomplete, for one reason or another.  Is this necessary
+and unavoidable?  Maybe, maybe not.  
 
-2. Provision ~ All resources created (that did not already exist)
-3. Bootstrap / Provision ~ Images are accessible ssh / keys
-4. Configuration 
+> Always expect the unexpected (never assume something else "should
+> not have happend").
 
-5. Verification and Monitoring
-6. Respond to problems / Fix bogs
+### Launch ~ Provision and Configuration 
 
-7. Production deployment
+1. M0 - Plan			~ Gather Requirement and Create Plan (GrandPlan)
+1. M1 - Provision		~ Acquire Resources and Ready with Creds
+1. M2 - Configure		~ Bring all resources to required state
+3. M4 - Log				~ Organized, intellegent history of app
+3. M5 - Tickets			~ Bugs and Enhancements: prioritize and move forward
+3. M3 - Integrate		~ Roll changes from dev into production
+2. M6 - Optimization	~ Customers, History and Data
+5. M7 - HAL 2010		~ A decade late, but we are Here!
 
-7. Develop Features ~ dev
-8. Verify development and bug fixes
-9. Deploy changes
+### Workflow Requirements: Expectations and Outcomes
 
-10. Any Problems?  If so goto 5. 
-11. Any configuraiton changes?  If so goto 4.
-12. Any infrastructure changes?  If so goto 1.
+Using a traditional unix style build process and _Makefile_, our
+application lifecycle can be created, updated, observed and destroyed
+with the following commands (which is also an API we'll try to stick
+with.) 
+
+The following example will, set the blueprint, inventory and
+providers.
+
+```
+% make providers = do, vagrant, gcp, azure
+% make inventory = /srv/inventory/{{provider}} 
+% make plans = lb-hap-ngx
+%
+% make images		=> produces proviimages
+% make provision
+% make configure
+% make status
+% make update
+% make destroy
+```
+
+## Table of Contenets
+
+This repo contains the following files and directories.
+
+- README.md	~ you are reading this file (tell you what's what)
+- Makefile	~ runs all build, config, and infra updates
+- Vagrantf..~ provision vagrant / virtual box test env 
+- config	~ ansible = configuration management
+- doc		~ documentation (site for hugo) 
+- etc		~ stuff that i have not tended to
+- img		~ packer = duplicate provider images
+- prov		~ terriform = provision 
+- src		~ sources for otto the helper
 
 
-- _app_ ~ plan infra, pick images, software & providers
-- _img_ ~ golden images required by app to all providers
-- _inv_ ~ inventories we have per provider
-- _prov_ ~ apps defined and status of provisioning
-- _config_ ~ configuration status of providers
-
-### 0. Images 
+### M0 Images 
 
 Packer will be used to create standard or _Golden Images_ for things
 like nginx servers, elk stack, databases, etc.
@@ -69,10 +89,6 @@ pre-created.
 - haproxy		~ load balancing
 - otto			~ build server and monitor
 - clowd			~ box of clowds
-
-#### Expected Outcomes
-
-1. App network
 
 
 ### 1. Provision Infrastructure ~ Terraform
@@ -138,16 +154,6 @@ validate the changes then deploy to server.
 ### 5. Monitor & Logging ~ Hunting Bugs with ELK
 
 Install ELK stack and start benefiting from logging.
-
-```bash
-$ export CLOWD_PROVIDERS="do, gcp, vagrant"
-$ make images
-$ make provision
-$ make config
-$ make test
-$ make status 
-$ make destroy
-```
 
 The "lifecycle" of every _site_ or _application_ comes in stages (or
 transitions from one state to another at times).  These are the
