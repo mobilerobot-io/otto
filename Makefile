@@ -5,7 +5,7 @@ ans = $(bindir)/ansible
 tf  = $(bindir)/terraform
 hugo= $(bindir)/hugo
 
-providers = do vagrant
+provider=do
 
 status: 
 	@echo "Vagrant hosts status..."
@@ -15,6 +15,9 @@ status:
 	@echo "-----------------------"
 	@doctl compute droplet list | grep 01
 
+prov:
+	make -C prov $(provider)
+
 up:
 	$(vag) up
 
@@ -23,3 +26,5 @@ destroy:
 
 clean:
 	rm -rf *~
+
+.PHONY: up prov status destroy clean
