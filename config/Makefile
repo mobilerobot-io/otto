@@ -17,3 +17,6 @@ otto:
 
 vagrant:
 	$(ap) -i ../inv/vagrant
+
+clean:
+	rm -rf *~
