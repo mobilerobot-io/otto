@@ -1,10 +1,8 @@
-## Maybe make these variables
-ap	= /usr/local/bin/ansible-playbook
-inv	= ../inv/do/
+providers = do vagrant
+provider = vagrant
 
-# providers = do vagrant
-# providers = vagrant
-providers = do
+ap	= /usr/local/bin/ansible-playbook
+inv	= /srv/inventory/${provider}
 
 status:
 	$(ap) -i $(inv) -status --list-hosts --list-tags --list-tasks

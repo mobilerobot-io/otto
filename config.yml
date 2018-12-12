@@ -1,0 +1,11 @@
+---
+providers:
+  - vagrant
+  - do
+  - gcp
+  - aws
+
+blueprints:
+  - ss-http: Single Server
+  - lb-http: load-balancer with http servers (2)
+

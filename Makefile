@@ -13,7 +13,7 @@ status:
 	@vagrant status | grep virtualbox
 	@echo "Digital Ocean Droplets..."
 	@echo "-----------------------"
-	@doctl compute droplet list | grep 01
+	@doctl compute droplet list | awk '{ print $2 }'
 
 prov:
 	make -C prov $(provider)
