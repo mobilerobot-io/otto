@@ -14,9 +14,9 @@ var (
 
 // AddService is used by otto to add this service.  We expect
 // the caller to provide us with a router (subrouter)
-func Register(s *mux.Router) {
+func Register(name string, s *mux.Router) {
 	s.HandleFunc("/", Handler)
-	s.HandleFunc("/{str}", Handler).Name("echo")
+	s.HandleFunc("/{str}", Handler).Name(name)
 	log.Infoln("  echo was registered... ")
 }
 

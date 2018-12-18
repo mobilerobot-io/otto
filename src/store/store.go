@@ -16,7 +16,7 @@ var (
 )
 
 // Register our callback handler
-func Register(s *mux.Router) {
+func Register(name string, s *mux.Router) {
 	s.HandleFunc("/", StoreHandler)
 	s.HandleFunc("/{name}", StoreItemHandler).Methods("GET", "POST", "PUT", "DELETE")
 	//s.HandleFunc("/{name}", StorePutHandler).Methods("POST", "PUT")

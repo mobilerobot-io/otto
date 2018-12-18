@@ -66,10 +66,10 @@ func main() {
 	log.Printf("Good bye...%v ", err)
 }
 
-func doPlugin(name string, r *mux.Router) {
+func doPlugin(path string, r *mux.Router) {
 
-	log.Infoln("  new plugin ", name)
-	path := name + "/" + name + ".so"
+	log.Infoln("  new plugin ", path)
+	//path := name + "/" + name + ".so"
 	pl, err := plugin.Open(path)
 	check(err)
 
@@ -78,7 +78,7 @@ func doPlugin(name string, r *mux.Router) {
 	check(err)
 
 	// Determine the name and path for the new subroute
-	name = *n.(*string)
+	name := *n.(*string)
 	url := "/" + name
 	if name == "static" || name == "clowdops.net" {
 		url = "/"
