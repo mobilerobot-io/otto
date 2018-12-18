@@ -14,6 +14,11 @@ type Configuration struct {
 	Fetch bool
 	Cache bool
 
+	ListPlugins bool
+
+	Routes  bool
+	Plugins string
+
 	LogLevel  string
 	LogOutput string
 	LogFormat string
@@ -41,6 +46,9 @@ func init() {
 
 	flag.BoolVar(&config.Fetch, "fetch", false, "fetch from provider = true, read from cache = false")
 	flag.BoolVar(&config.Cache, "cache", true, "cache results from API queries")
+
+	flag.BoolVar(&config.Routes, "routes", false, "Walk the routes after they have been added")
+	flag.StringVar(&config.Plugins, "plugins", "", "find plugins ")
 }
 
 func (c *Configuration) Save(fname string) (err error) {
