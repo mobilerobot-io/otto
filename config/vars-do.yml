@@ -1,6 +1,0 @@
----
-domain: clowdops.net
-
-# remote_user: root
-# become: yes
-inventory: /srv/inventory/do
