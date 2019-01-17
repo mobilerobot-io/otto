@@ -1,6 +1,0 @@
----
-- name: Packer the installation is coming
-  unarchive:
-    url: https://releases.hashicorp.com/packer/1.3.3/packer_1.3.3_linux_amd64.zip
-    dest: /usr/local/bin
-  when: "'64' in ansible_architecture"

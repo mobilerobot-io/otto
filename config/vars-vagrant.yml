@@ -1,7 +1,0 @@
----
-domain: clowdops.loc
-
-remote_user: vagrant
-become: yes
-
-inventory: /srv/inventory/vagrant

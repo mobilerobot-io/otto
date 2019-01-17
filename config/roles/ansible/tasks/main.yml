@@ -1,4 +1,0 @@
----
-- name: Install ansible with pip
-  pip:
-    name: ansible

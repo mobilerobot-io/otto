@@ -1,7 +1,0 @@
----
-
-- name: Download Terraform for linux 64bits
-  unarchive:
-    url: https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip
-    dest: /usr/local/bin
-  when: "'64' in ansible_architecture and 'Linux' == ansible_system"

@@ -1,5 +1,0 @@
----
-- name: Install the go build env from snap
-  snap:
-    name: go
-    classic: yes
