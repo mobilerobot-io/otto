@@ -1,3 +1,0 @@
-# Building Images with Packer
-
-## ERROR: DO is not authenticating ...
