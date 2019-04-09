@@ -25,6 +25,7 @@ func NewServer(addr string) (s *http.Server, r *mux.Router) {
 	}
 
 	r.HandleFunc("/", OttoHandler)
+	r.HandleFunc("/routes", routeHandler)
 	return s, r
 }
 
@@ -34,6 +35,14 @@ func OttoHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	//fmt.Fprintf(w, "Category: %v\n", vars["category"])
 	fmt.Fprintf(w, "Wee, I Go!")
+}
+
+func routeHandler(w http.ResponseWriter, r *http.Request) {
+	//vars := mux.Vars(r)
+	log.Debug("Entered Otto Handler")
+	w.WriteHeader(http.StatusOK)
+	WalkRoutes(router, w, w)
+	//fmt.Fprintf(w, "Wee, I Go!")
 }
 
 func WalkRoutes(r *mux.Router, w io.Writer, e io.Writer) {

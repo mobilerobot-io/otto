@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
@@ -25,9 +26,23 @@ func main() {
 	// flags are set in config.go, parse em and get our command line args ready
 	flag.Parse()
 
-	// set the return values to the corresponding globals
-	server, router := NewServer(config.Addrport)
+	// Create the server along with the router, our plugins will register with
+	// the router.
+	server, router = NewServer(config.Addrport)
+
+	// Now we will load up our plugins
 	loadPlugins(server, router, flag.Args())
+
+	log.Println("  otto is starting on ", server.Addr)
+
+	if config.Routes {
+		log.Println("Registered routes: ")
+		WalkRoutes(router, os.Stdout, os.Stderr)
+	}
+
+	// Now we'll start the server, but we need some concurrency here!
+	err := server.ListenAndServe()
+	log.Fatal(err)
 }
 
 func check(err error) {

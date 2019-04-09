@@ -2,7 +2,6 @@ package main
 
 import (
 	"net/http"
-	"os"
 	"path/filepath"
 	"plugin"
 
@@ -41,14 +40,6 @@ func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 		log.Debugln("Doing plugin ", name)
 		doPlugin(name, r)
 	}
-
-	if config.Routes {
-		WalkRoutes(r, os.Stdout, os.Stderr)
-	}
-
-	log.Println("  otto is starting on ", s.Addr)
-	err = s.ListenAndServe()
-	log.Fatal(err)
 }
 
 func doPlugin(path string, r *mux.Router) {
