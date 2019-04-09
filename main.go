@@ -17,6 +17,8 @@ var (
 
 // Everything on the command line should be a plugin
 func main() {
+
+	// flags are set in config.go, parse em and get our command line args ready
 	flag.Parse()
 
 	// set the return values to the corresponding globals

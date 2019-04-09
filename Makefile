@@ -2,9 +2,9 @@
 
 plugins =  echo wally static store dork
 
-all: $(plugins) build
+all: build $(plugins) build
 
-$(plugins):
+$(plugins): 
 	${MAKE} -C $@ 
 
 status:

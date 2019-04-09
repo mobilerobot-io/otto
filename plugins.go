@@ -28,7 +28,11 @@ func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 		for _, pl := range plugins {
 			log.Infoln("\t", pl)
 		}
-		os.Exit(0)
+		//os.Exit(0)
+	}
+
+	if flag.Args() == 0 {
+		return
 	}
 
 	for _, name := range flag.Args() {
