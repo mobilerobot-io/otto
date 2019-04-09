@@ -9,4 +9,10 @@ Spinning up servers for PoCs, testing or starting a new project is
 a typical thing to do these days [era of the
 micro-service](http://wikipedia.org/microservices) . 
 
+## Built-In Endpoints
+
+### /routes 
+
+The /routes endpoint will dump the routes that we have so far registered..
+
 ## Example 
