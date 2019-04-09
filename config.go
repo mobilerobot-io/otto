@@ -1,4 +1,4 @@
-package main
+package otto
 
 import (
 	"encoding/json"
@@ -26,12 +26,7 @@ type Configuration struct {
 
 func init() {
 	config = Configuration{
-		Addr: ":3333",
-		Dir:  "/srv/invdb/data/",
-
-		Fetch: false,
-		Cache: true,
-
+		Addr:      ":3333",
 		LogLevel:  "warn",
 		LogOutput: "stdout",
 		LogFormat: "json",
@@ -42,15 +37,11 @@ func init() {
 	flag.StringVar(&config.LogOutput, "logfile", "stdout", "logfile, stdout or stderr")
 
 	flag.StringVar(&config.Addr, "addr", ":4433", "address and port to listen on")
-	flag.StringVar(&config.Dir, "dir", "/srv/invdb/data", "inventory database")
-
-	flag.BoolVar(&config.Fetch, "fetch", false, "fetch from provider = true, read from cache = false")
-	flag.BoolVar(&config.Cache, "cache", true, "cache results from API queries")
-
 	flag.BoolVar(&config.Routes, "routes", false, "Walk the routes after they have been added")
 	flag.StringVar(&config.Plugins, "plugins", "", "find plugins ")
 }
 
+// Save we can start using store for this, correct?
 func (c *Configuration) Save(fname string) (err error) {
 	var jbuf []byte
 
