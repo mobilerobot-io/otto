@@ -14,6 +14,6 @@ build:
 	go build
 
 run:
-	make -C otto run
+	make run -v main.go
 
 .PHONY: $(plugins) build

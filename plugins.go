@@ -1,4 +1,4 @@
-package otto
+package main
 
 import (
 	"flag"
@@ -7,6 +7,7 @@ import (
 	"plugin"
 
 	"github.com/gorilla/mux"
+	"github.com/mobilerobot-io/otto"
 )
 
 // Mods is just another name for plugins that will not conflict with
@@ -14,8 +15,12 @@ import (
 type Mod struct {
 	Name   string
 	Loaded bool
-	Plugin
+	plugin.Plugin
 }
+
+var (
+	config otto.Configuration
+)
 
 func loadPlugins(plugins []string) {
 
