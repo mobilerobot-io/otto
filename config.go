@@ -37,7 +37,7 @@ func init() {
 	flag.StringVar(&config.LogOutput, "logfile", "stdout", "logfile, stdout or stderr")
 
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
-	flag.BoolVar(&config.Routes, "routes", false, "Walk the routes after they have been added")
+	flag.BoolVar(&config.Routes, "routes", true, "Walk the routes after they have been added")
 	flag.StringVar(&config.Plugins, "plugins", "", "find plugins ")
 }
 

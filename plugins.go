@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -20,22 +19,26 @@ type Mod struct {
 }
 
 func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
+	var p []string
+	var err error
 	if config.Plugins != "" {
-		plugins, err := filepath.Glob(config.Plugins)
+		p, err = filepath.Glob(config.Plugins)
 		check(err)
 
 		log.Info("Plugins...")
 		for _, pl := range plugins {
 			log.Infoln("\t", pl)
 		}
-		//os.Exit(0)
 	}
 
 	if plugins == nil {
+		log.Debug("We appear to have no plugins returning ")
 		return
+	} else {
+		p = plugins
 	}
-
-	for _, name := range flag.Args() {
+	for _, name := range p {
+		log.Debugln("Doing plugin ", name)
 		doPlugin(name, r)
 	}
 
@@ -44,12 +47,13 @@ func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 	}
 
 	log.Println("  otto is starting on ", s.Addr)
-	err := s.ListenAndServe()
+	err = s.ListenAndServe()
 	log.Fatal(err)
 }
 
 func doPlugin(path string, r *mux.Router) {
-	log.Infoln("  new plugin ", path)
+
+	log.Infoln("  New plugin ", path)
 	pl, err := plugin.Open(path)
 	check(err)
 

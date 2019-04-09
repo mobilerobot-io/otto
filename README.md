@@ -1,8 +1,12 @@
-# otto ~ The Pluggable Micro Server ~
+# oTTo ~ The Pluggable Micro Server ~
 
-Otto is a very small and simple microserver that can use plugins
-to provide unique functionality through routes and callbacks.
+OttO is a very small and simple microserver that uses plugins to
+provide the applications functionality.  For example a couple plugins
+include an echo server, a VM lister for digital ocean and a website
+walker, just to name a couple.
 
 Spinning up servers for PoCs, testing or starting a new project is
 a typical thing to do these days [era of the
-micro-service](http://wikipedia.org/microservices) .
+micro-service](http://wikipedia.org/microservices) . 
+
+## Example 

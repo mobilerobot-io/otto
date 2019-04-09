@@ -16,7 +16,7 @@ var (
 )
 
 func init() {
-	log.SetFormatter(&log.JSONFormatter{})
+	//log.SetFormatter(&log.JSONFormatter{})
 }
 
 // Everything on the command line should be a plugin
