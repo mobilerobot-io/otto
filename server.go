@@ -8,20 +8,32 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	log "github.com/mgutz/logxi/v1"
 )
 
-// NewServer will create the single global http.server and mux.Router
+// NewServer will create the single global http.server and mux.Router, it will
+// also create some built in routes we will be using
 func NewServer(addr string) (s *http.Server, r *mux.Router) {
 	// Create the router and server object to house the router
 	r = mux.NewRouter()
 	s = &http.Server{
-		Handler: router,
+		Handler: r,
 		Addr:    config.Addrport,
 		// Good practice: enforce timeouts for servers youcreate!
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
+
+	r.HandleFunc("/", OttoHandler)
 	return s, r
+}
+
+func OttoHandler(w http.ResponseWriter, r *http.Request) {
+	//vars := mux.Vars(r)
+	log.Debug("Entered Otto Handler")
+	w.WriteHeader(http.StatusOK)
+	//fmt.Fprintf(w, "Category: %v\n", vars["category"])
+	fmt.Fprintf(w, "Wee, I Go!")
 }
 
 func WalkRoutes(r *mux.Router, w io.Writer, e io.Writer) {

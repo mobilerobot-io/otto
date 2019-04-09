@@ -13,6 +13,10 @@ require (
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gorilla/mux v1.7.1
 	github.com/kennygrant/sanitize v1.2.4 // indirect
+	github.com/mattn/go-colorable v0.1.1 // indirect
+	github.com/mattn/go-isatty v0.0.7 // indirect
+	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
+	github.com/mgutz/logxi v0.0.0-20161027140823-aebf8a7d67ab
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mobilerobot-io/otto v0.0.0-20190409180902-f561102b2ca1
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect

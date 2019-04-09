@@ -15,6 +15,10 @@ var (
 	router *mux.Router
 )
 
+func init() {
+	log.SetFormatter(&log.JSONFormatter{})
+}
+
 // Everything on the command line should be a plugin
 func main() {
 

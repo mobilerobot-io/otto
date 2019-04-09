@@ -31,7 +31,7 @@ func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 		//os.Exit(0)
 	}
 
-	if flag.Args() == 0 {
+	if plugins == nil {
 		return
 	}
 
@@ -43,15 +43,13 @@ func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 		WalkRoutes(r, os.Stdout, os.Stderr)
 	}
 
-	log.Println("  otto is starting on ", server.Addr)
+	log.Println("  otto is starting on ", s.Addr)
 	err := s.ListenAndServe()
-	log.Printf("Good bye...%v ", err)
+	log.Fatal(err)
 }
 
 func doPlugin(path string, r *mux.Router) {
-
 	log.Infoln("  new plugin ", path)
-	//path := name + "/" + name + ".so"
 	pl, err := plugin.Open(path)
 	check(err)
 
