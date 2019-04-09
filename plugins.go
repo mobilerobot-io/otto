@@ -2,12 +2,13 @@ package main
 
 import (
 	"flag"
+	"net/http"
 	"os"
 	"path/filepath"
 	"plugin"
 
 	"github.com/gorilla/mux"
-	"github.com/mobilerobot-io/otto"
+	log "github.com/sirupsen/logrus"
 )
 
 // Mods is just another name for plugins that will not conflict with
@@ -18,12 +19,7 @@ type Mod struct {
 	plugin.Plugin
 }
 
-var (
-	config otto.Configuration
-)
-
-func loadPlugins(plugins []string) {
-
+func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 	if config.Plugins != "" {
 		plugins, err := filepath.Glob(config.Plugins)
 		check(err)
@@ -43,8 +39,8 @@ func loadPlugins(plugins []string) {
 		WalkRoutes(r, os.Stdout, os.Stderr)
 	}
 
-	log.Println("  otto is starting on ", srv.Addr)
-	err := srv.ListenAndServe()
+	log.Println("  otto is starting on ", server.Addr)
+	err := s.ListenAndServe()
 	log.Printf("Good bye...%v ", err)
 }
 

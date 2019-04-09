@@ -9,10 +9,10 @@ import (
 )
 
 type Configuration struct {
-	Addr  string
-	Dir   string
-	Fetch bool
-	Cache bool
+	Addrport string
+	Dir      string
+	Fetch    bool
+	Cache    bool
 
 	ListPlugins bool
 
@@ -26,7 +26,7 @@ type Configuration struct {
 
 func init() {
 	config = Configuration{
-		Addr:      ":3333",
+		Addrport:  ":3333",
 		LogLevel:  "warn",
 		LogOutput: "stdout",
 		LogFormat: "json",
@@ -36,7 +36,7 @@ func init() {
 	flag.StringVar(&config.LogFormat, "format", "json", "set log format")
 	flag.StringVar(&config.LogOutput, "logfile", "stdout", "logfile, stdout or stderr")
 
-	flag.StringVar(&config.Addr, "addr", ":4433", "address and port to listen on")
+	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
 	flag.BoolVar(&config.Routes, "routes", false, "Walk the routes after they have been added")
 	flag.StringVar(&config.Plugins, "plugins", "", "find plugins ")
 }
