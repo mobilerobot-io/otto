@@ -7,13 +7,18 @@ walker, just to name a couple.
 
 Spinning up servers for PoCs, testing or starting a new project is
 a typical thing to do these days [era of the
-micro-service](http://wikipedia.org/microservices) . 
+micro-service](http://wikipedia.org/microservices). 
 
 ## Built-In Endpoints
 
-- /routes 
+- /routes	~ Dump the routes currently registered
+- /plugins	~ Dump the plugins we have registered
 
 The /routes endpoint will dump the routes that we have been registered
 by plugins so far...
 
-## Example 
+## Plugins
+
+- echo	~ echo back
+- wally ~ website walker
+- dork  ~ digital ocean cloud manager
