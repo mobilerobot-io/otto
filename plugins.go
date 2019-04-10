@@ -11,10 +11,18 @@ import (
 
 // Mods is just another name for plugins that will not conflict with
 // the standard package plugins
-type Mod struct {
+type OttoPlugin struct {
 	Name   string
+	Path   string
 	Loaded bool
-	plugin.Plugin
+}
+
+var (
+	ottoPlugins map[string]OttoPlugin
+)
+
+func init() {
+	ottoPlugins = make(map[string]OttoPlugin)
 }
 
 func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
@@ -58,7 +66,6 @@ func doPlugin(path string, r *mux.Router) {
 	if name == "static" || name == "clowdops.net" {
 		url = "/"
 	}
-
 	log.Infof("   name %s path %s url %s ", name, path, url)
 
 	// Create our new subroute
@@ -72,5 +79,11 @@ func doPlugin(path string, r *mux.Router) {
 	// Now register our plugin by passing the newly created
 	// subrouter to the new plugin's Register(*mux.Router) function
 	regf.(func(string, *mux.Router))(name, sub)
+
+	ottoPlugins[name] = OttoPlugin{
+		Name:   name,
+		Loaded: true,
+		Path:   path,
+	}
 	log.Infoln("  subroutes have been registered ", path)
 }

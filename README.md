@@ -11,8 +11,9 @@ micro-service](http://wikipedia.org/microservices) .
 
 ## Built-In Endpoints
 
-### /routes 
+- /routes 
 
-The /routes endpoint will dump the routes that we have so far registered..
+The /routes endpoint will dump the routes that we have been registered
+by plugins so far...
 
 ## Example 

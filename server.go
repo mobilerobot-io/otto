@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	log "github.com/mgutz/logxi/v1"
+	log "github.com/sirupsen/logrus"
 )
 
 // NewServer will create the single global http.server and mux.Router, it will
@@ -26,6 +26,7 @@ func NewServer(addr string) (s *http.Server, r *mux.Router) {
 
 	r.HandleFunc("/", OttoHandler)
 	r.HandleFunc("/routes", routeHandler)
+	r.HandleFunc("/plugins", pluginHandler)
 	return s, r
 }
 
@@ -43,6 +44,17 @@ func routeHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	WalkRoutes(router, w, w)
 	//fmt.Fprintf(w, "Wee, I Go!")
+}
+
+func pluginHandler(w http.ResponseWriter, r *http.Request) {
+	//vars := mux.Vars(r)
+	log.Debug("Entered Plugin Handler")
+	w.WriteHeader(http.StatusOK)
+
+	for n, _ := range ottoPlugins {
+		fmt.Fprintf(w, n)
+	}
+	fmt.Fprintf(w, "done")
 }
 
 func WalkRoutes(r *mux.Router, w io.Writer, e io.Writer) {
