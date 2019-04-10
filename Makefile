@@ -11,7 +11,10 @@ status:
 	@echo "All good with OttO"
 
 build:
-	go build
+	go build -v
+
+pi:
+	env GOOS=linux GOARCH=arm GOARM=5 go build -v
 
 run:
 	make run -v main.go
