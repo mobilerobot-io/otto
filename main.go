@@ -33,17 +33,19 @@ func main() {
 
 	// Now we will load up our plugins
 	loadPlugins(server, router, flag.Args())
-
-	log.Println("  otto is starting on ", server.Addr)
-
+	if config.ListPlugins {
+		for n, _ := range ottoPlugins {
+			log.Infoln(n)
+		}
+	}
 	if config.ListRoutes {
 		log.Println("Registered routes: ")
 		WalkRoutes(router, os.Stdout, os.Stderr)
 	}
-
 	// Now we'll start the server if we have been configured to
-	// run in daemonic mode
+	// run in daemonic modez
 	if config.Daemon {
+		log.Infoln("  otto is starting on ", server.Addr)
 		err := server.ListenAndServe()
 		log.Fatal(err)
 	}

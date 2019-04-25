@@ -35,7 +35,7 @@ func init() {
 	flag.StringVar(&config.LogLevel, "level", "warn", "set log level")
 	flag.StringVar(&config.LogFormat, "format", "json", "set log format")
 	flag.StringVar(&config.LogOutput, "logfile", "stdout", "logfile, stdout or stderr")
-	flag.StringVar(&config.Plugdir, "plugdir", "plugins", "the dir to look for plugins")
+	flag.StringVar(&config.Plugdir, "plugdir", ".", "the dir to look for plugins")
 
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
 	flag.BoolVar(&config.ListRoutes, "list-routes", false, "Walk the routes after they have been added")
