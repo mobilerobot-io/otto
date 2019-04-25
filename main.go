@@ -32,16 +32,18 @@ func main() {
 	server, router = NewServer(config.Addrport)
 
 	// Now we will load up our plugins
-	loadPlugins(server, router, flag.Args())
+	loadPlugins(router, flag.Args())
 	if config.ListPlugins {
 		for n, _ := range ottoPlugins {
 			log.Infoln(n)
 		}
 	}
+
 	if config.ListRoutes {
 		log.Println("Registered routes: ")
 		WalkRoutes(router, os.Stdout, os.Stderr)
 	}
+
 	// Now we'll start the server if we have been configured to
 	// run in daemonic modez
 	if config.Daemon {

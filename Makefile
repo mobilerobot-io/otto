@@ -5,7 +5,7 @@ build:
 	$(MAKE) -C plugins
 
 pi:
-	env GOOS=linux GOARCH=arm GOARM=5 go build -v -o otto-pi
+	env GOOS=linux GOARCH=arm GOARM=5 go build -v
 	$(MAKE) -C plugins pi
 
 run:

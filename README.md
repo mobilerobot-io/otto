@@ -1,9 +1,11 @@
 # oTTo ~ The Pluggable Micro Server ~
 
 OttO is a very small and simple microserver that uses plugins to
-provide the applications functionality.  For example a couple plugins
-include an echo server, a VM lister for digital ocean and a website
-walker, just to name a couple.
+provide the applications functionality.  This allows otto to serve up
+a wide variety of functionality while allowing the user to only
+include the stuff she wants.
+
+Plugins are developed using [Go builtin plugins](http://golang.org/packages/plugin). 
 
 Spinning up servers for PoCs, testing or starting a new project is
 a typical thing to do these days [era of the
@@ -20,5 +22,11 @@ by plugins so far...
 ## Plugins
 
 - echo	~ echo back
-- wally ~ website walker
+
 - dork  ~ digital ocean cloud manager
+- static ~ serve up static files
+- store ~ persist info for later
+- wally ~ website walker
+- wsgi ~ run python Flask scripts
+
+

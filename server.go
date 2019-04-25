@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
@@ -32,18 +34,31 @@ func NewServer(addr string) (s *http.Server, r *mux.Router) {
 func OttoHandler(w http.ResponseWriter, r *http.Request) {
 	//vars := mux.Vars(r)
 	log.Debug("Entered Otto Handler")
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Wee, I Go!")
+
+	// Read the template
+	tmpl, err := ioutil.ReadFile("tmpl/index.html")
+	check(err)
+
+	t, err := template.New("index").Parse(string(tmpl))
+	check(err)
+
+	data := struct {
+		Title   string
+		Content string
+	}{
+		Title:   "OttO",
+		Content: "The oTTo Maker",
+	}
+
+	err = t.Execute(w, data)
+	check(err)
 }
 
 func routeHandler(w http.ResponseWriter, r *http.Request) {
 	//vars := mux.Vars(r)
-	log.Debug("Entered Otto Handler")
+	log.Debug("Entered Route Handler")
 	w.WriteHeader(http.StatusOK)
-
-	if config.ListRoutes {
-		WalkRoutes(router, w, w)
-	}
+	WalkRoutes(router, w, w)
 }
 
 func pluginHandler(w http.ResponseWriter, r *http.Request) {
