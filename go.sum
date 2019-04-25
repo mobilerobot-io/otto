@@ -1,3 +1,5 @@
+bitbucket.org/classroomsystems/wsgi v0.0.0-20160823232928-ea21b2c303e8 h1:JWOQP7PpOTm/IMvfOPUx8bERQT6KRGiF5MjWreUfom4=
+bitbucket.org/classroomsystems/wsgi v0.0.0-20160823232928-ea21b2c303e8/go.mod h1:+KatNH1AX9TUMHLzYD6ili6rhmhGoOn9RRJu9Az/mNc=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/PuerkitoBio/goquery v1.5.0 h1:uGvmFXOA73IKluu/F84Xd1tt/z07GYm8X49XKHP7EJk=
 github.com/PuerkitoBio/goquery v1.5.0/go.mod h1:qD2PgZ9lccMbQlc7eEOjaeRlFQON7xY8kdmcsrnKqMg=

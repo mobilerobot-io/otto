@@ -1,11 +1,6 @@
 # plugins ::= $(wildcard $(dir $(wildcard */*.so)))
 
-plugins =  echo wally static store dork
-
-all: build $(plugins) build
-
-$(plugins): 
-	${MAKE} -C $@ 
+all: build $(plugins) pi build
 
 status:
 	@echo "All good with OttO"
@@ -15,8 +10,9 @@ build:
 
 pi:
 	env GOOS=linux GOARCH=arm GOARM=5 go build -v
+	$(MAKE) -C plugins pi
 
 run:
 	make run -v main.go
 
-.PHONY: $(plugins) build
+.PHONY: $(plugins) build plugins all

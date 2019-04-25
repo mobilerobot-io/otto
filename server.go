@@ -23,7 +23,6 @@ func NewServer(addr string) (s *http.Server, r *mux.Router) {
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
 	}
-
 	r.HandleFunc("/", OttoHandler)
 	r.HandleFunc("/routes", routeHandler)
 	r.HandleFunc("/plugins", pluginHandler)
@@ -34,7 +33,6 @@ func OttoHandler(w http.ResponseWriter, r *http.Request) {
 	//vars := mux.Vars(r)
 	log.Debug("Entered Otto Handler")
 	w.WriteHeader(http.StatusOK)
-	//fmt.Fprintf(w, "Category: %v\n", vars["category"])
 	fmt.Fprintf(w, "Wee, I Go!")
 }
 
@@ -42,21 +40,25 @@ func routeHandler(w http.ResponseWriter, r *http.Request) {
 	//vars := mux.Vars(r)
 	log.Debug("Entered Otto Handler")
 	w.WriteHeader(http.StatusOK)
-	WalkRoutes(router, w, w)
-	//fmt.Fprintf(w, "Wee, I Go!")
+
+	if config.ListRoutes {
+		WalkRoutes(router, w, w)
+	}
 }
 
 func pluginHandler(w http.ResponseWriter, r *http.Request) {
 	//vars := mux.Vars(r)
 	log.Debug("Entered Plugin Handler")
 	w.WriteHeader(http.StatusOK)
-
 	for n, _ := range ottoPlugins {
 		fmt.Fprintf(w, n)
 	}
 	fmt.Fprintf(w, "done")
 }
 
+// WalkRoutes will gather all routes we have registered and write the results
+// the io.Writer that has been provided us, we will also write all errors to
+// the respective io.Writer.
 func WalkRoutes(r *mux.Router, w io.Writer, e io.Writer) {
 	err := r.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
 		pathTemplate, err := route.GetPathTemplate()

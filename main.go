@@ -17,7 +17,7 @@ var (
 )
 
 func init() {
-	//log.SetFormatter(&log.JSONFormatter{})
+	// log.SetFormatter(&log.JSONFormatter{})
 }
 
 // Everything on the command line should be a plugin
@@ -35,7 +35,7 @@ func main() {
 
 	log.Println("  otto is starting on ", server.Addr)
 
-	if config.Routes {
+	if config.ListRoutes {
 		log.Println("Registered routes: ")
 		WalkRoutes(router, os.Stdout, os.Stderr)
 	}

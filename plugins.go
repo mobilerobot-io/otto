@@ -28,8 +28,8 @@ func init() {
 func loadPlugins(s *http.Server, r *mux.Router, plugins []string) {
 	var p []string
 	var err error
-	if config.Plugins != "" {
-		p, err = filepath.Glob(config.Plugins)
+	if config.Plugdir != "" {
+		p, err = filepath.Glob(config.Plugdir + "/*/*.so")
 		check(err)
 
 		log.Info("Plugins...")

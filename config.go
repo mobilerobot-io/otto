@@ -13,11 +13,10 @@ type Configuration struct {
 	Dir      string
 	Fetch    bool
 	Cache    bool
+	Plugdir  string // Directory that contains plugin dirs
 
 	ListPlugins bool
-
-	Routes  bool
-	Plugins string
+	ListRoutes  bool
 
 	LogLevel  string
 	LogOutput string
@@ -35,10 +34,11 @@ func init() {
 	flag.StringVar(&config.LogLevel, "level", "warn", "set log level")
 	flag.StringVar(&config.LogFormat, "format", "json", "set log format")
 	flag.StringVar(&config.LogOutput, "logfile", "stdout", "logfile, stdout or stderr")
+	flag.StringVar(&config.Plugdir, "plugdir", "plugins", "the dir to look for plugins")
 
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
-	flag.BoolVar(&config.Routes, "routes", true, "Walk the routes after they have been added")
-	flag.StringVar(&config.Plugins, "plugins", "", "find plugins ")
+	flag.BoolVar(&config.ListRoutes, "list-routes", true, "Walk the routes after they have been added")
+	flag.BoolVar(&config.ListPlugins, "list-plugins", true, "List the plugins we are using")
 }
 
 // Save we can start using store for this, correct?
