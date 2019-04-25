@@ -18,6 +18,7 @@ var (
 
 func init() {
 	// log.SetFormatter(&log.JSONFormatter{})
+	log.SetLevel(log.DebugLevel)
 }
 
 // Everything on the command line should be a plugin
@@ -40,9 +41,12 @@ func main() {
 		WalkRoutes(router, os.Stdout, os.Stderr)
 	}
 
-	// Now we'll start the server, but we need some concurrency here!
-	err := server.ListenAndServe()
-	log.Fatal(err)
+	// Now we'll start the server if we have been configured to
+	// run in daemonic mode
+	if config.Daemon {
+		err := server.ListenAndServe()
+		log.Fatal(err)
+	}
 }
 
 func check(err error) {

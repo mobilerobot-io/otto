@@ -1,18 +1,22 @@
 # plugins ::= $(wildcard $(dir $(wildcard */*.so)))
 
-all: build $(plugins) pi build
-
-status:
-	@echo "All good with OttO"
-
 build:
 	go build -v
+	$(MAKE) -C plugins
 
 pi:
-	env GOOS=linux GOARCH=arm GOARM=5 go build -v
+	env GOOS=linux GOARCH=arm GOARM=5 go build -v -o otto-pi
 	$(MAKE) -C plugins pi
 
 run:
 	make run -v main.go
+
+status:
+	@echo "All good with OttO"
+
+clean:
+	go clean
+	rm -rm *~ otto *.so
+
 
 .PHONY: $(plugins) build plugins all

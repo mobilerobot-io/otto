@@ -1,10 +1,9 @@
 plugins := $(wildcard $(dir $(wildcard */*.so)))
 
-# $(plugins): $(plugins)/$<.so
-#	$(MAKE) -C $< $@
+all: $(plugins)
 
 $(plugins):
-	@echo $@
+	$(MAKE) -C $< $@
 
 status:
 	@echo $(plugins)
@@ -12,4 +11,4 @@ status:
 pi: $(plugins)
 	$(MAKE) -C $< $@
 
-.PHONY: status $(plugins)
+.PHONY: status pi all $(plugins)

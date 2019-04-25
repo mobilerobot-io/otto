@@ -11,6 +11,7 @@ import (
 type Configuration struct {
 	Addrport string
 	Dir      string
+	Daemon   bool
 	Fetch    bool
 	Cache    bool
 	Plugdir  string // Directory that contains plugin dirs
@@ -37,8 +38,9 @@ func init() {
 	flag.StringVar(&config.Plugdir, "plugdir", "plugins", "the dir to look for plugins")
 
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
-	flag.BoolVar(&config.ListRoutes, "list-routes", true, "Walk the routes after they have been added")
-	flag.BoolVar(&config.ListPlugins, "list-plugins", true, "List the plugins we are using")
+	flag.BoolVar(&config.ListRoutes, "list-routes", false, "Walk the routes after they have been added")
+	flag.BoolVar(&config.ListPlugins, "list-plugins", false, "List the plugins we are using")
+	flag.BoolVar(&config.Daemon, "daemon", false, "run in background as a service")
 }
 
 // Save we can start using store for this, correct?
