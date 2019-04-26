@@ -38,28 +38,33 @@ func NewPlugin(p string) OttoPlugin {
 	return op
 }
 
-func loadPlugins(r *mux.Router, plugins []string) {
+func loadPlugins(r *mux.Router, dir string) {
 	var p []string
 	var err error
 
 	log.Debugln("Loading Plugins")
-	if config.Plugdir != "" {
-		p, err = filepath.Glob("plugins/**/*.so")
-		check(err)
+	if dir == "" {
+		dir = "."
+	}
+	p, err = filepath.Glob(dir + "plugins/**/*.so")
+	check(err)
 
-		log.Debugln("Plugins...")
-		for _, pl := range p {
-			log.Debugln("\t", pl)
-			NewPlugin(pl)
-		}
+	log.Debugln("Plugins...")
+	for _, pl := range p {
+		log.Debugln("\t", pl)
+		NewPlugin(pl)
 	}
 }
 
 // ActivatePlugin
-func ActivatePlugin(path string, r *mux.Router) {
+func activatePlugin(fname string, r *mux.Router) {
 
-	log.Infoln("  New plugin ", path)
-	pl, err := plugin.Open(path)
+	p, ex := ottoPlugins[fname]
+	if !ex {
+		return
+	}
+	log.Infoln("  New plugin ", p.Path)
+	pl, err := plugin.Open(p.Path)
 	check(err)
 
 	// TODO: Add Flags and Help ...
@@ -72,7 +77,7 @@ func ActivatePlugin(path string, r *mux.Router) {
 	if name == "static" || name == "clowdops.net" {
 		url = "/"
 	}
-	log.Infof("   name %s path %s url %s ", name, path, url)
+	log.Infof("   name %s path %s url %s ", name, p.Path, url)
 
 	// Create our new subroute
 	sub := r.PathPrefix(url).Subrouter()
@@ -94,5 +99,5 @@ func ActivatePlugin(path string, r *mux.Router) {
 	*/
 	op := ottoPlugins[name]
 	op.Loaded = true
-	log.Infoln("  subroutes have been registered ", path)
+	log.Infoln("  subroutes have been registered ", p.Path)
 }
