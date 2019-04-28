@@ -1,7 +1,11 @@
 plugins := $(wildcard $(dir $(wildcard */*.so)))
 
-build:
+build: otto plugins
+
+otto: *.go
 	go build -v
+
+plugins:
 	$(MAKE) -C plugins
 
 pi:
@@ -16,7 +20,6 @@ status:
 
 clean:
 	go clean
-	rm -rm *~ otto *.so
-
+	rm -rf *~ otto *.so
 
 .PHONY: $(plugins) build plugins all

@@ -42,10 +42,10 @@ func init() {
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
 	flag.StringVar(&config.WSAddrport, "wsaddr", ":4434", "websocket address to listen on")
 
-	flag.BoolVar(&config.ListRoutes, "list-routes", false, "Walk the routes after they have been added")
-	flag.BoolVar(&config.ListPlugins, "list-plugins", false, "List the plugins we are using")
+	flag.BoolVar(&config.ListRoutes, "routes", false, "Walk the routes after they have been added")
+	flag.BoolVar(&config.ListPlugins, "plugins", false, "List the plugins we are using")
 
-	flag.BoolVar(&config.NoDaemon, "nodaemon", false, "run in background as a service")
+	flag.BoolVar(&config.NoDaemon, "no-daemon", false, "run in background as a service")
 }
 
 // Save we can start using store for this, correct?

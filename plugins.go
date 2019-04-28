@@ -90,13 +90,11 @@ func activatePlugin(fname string, r *mux.Router) {
 	// Now register our plugin by passing the newly created
 	// subrouter to the new plugin's Register(*mux.Router) function
 	regf.(func(string, *mux.Router))(name, sub)
-	/*
-		ottoPlugins[name] = OttoPlugin{
-			Name:   name,
-			Loaded: true,
-			Path:   path,
-		}
-	*/
+	ottoPlugins[name] = OttoPlugin{
+		Name:   name,
+		Loaded: true,
+		Path:   fname,
+	}
 	op := ottoPlugins[name]
 	op.Loaded = true
 	log.Infoln("  subroutes have been registered ", p.Path)

@@ -1,6 +1,6 @@
-all: build 
+build: dork.so
 
-build:
+%.so: %.go
 	go build -v -buildmode=plugin
 
 pi:

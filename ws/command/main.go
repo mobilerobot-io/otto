@@ -11,12 +11,14 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"os/exec"
 	"time"
 
 	"github.com/gorilla/websocket"
 )
 
 var (
+	addr    = flag.String("addr", "127.0.0.1:8080", "http service address")
 	cmdPath string
 )
 
@@ -163,7 +165,6 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-/*
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.Error(w, "Not found", http.StatusNotFound)
@@ -176,7 +177,7 @@ func serveHome(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "home.html")
 }
 
-func oldmain() {
+func main() {
 	flag.Parse()
 	if len(flag.Args()) < 1 {
 		log.Fatal("must specify at least one argument")
@@ -190,4 +191,3 @@ func oldmain() {
 	http.HandleFunc("/ws", serveWs)
 	log.Fatal(http.ListenAndServe(*addr, nil))
 }
-*/

@@ -1,6 +1,8 @@
 all: build 
 
-build:
+build: store.so
+
+%.so: %.go
 	go build -v -buildmode=plugin
 
 pi:
