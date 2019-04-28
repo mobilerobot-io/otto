@@ -9,9 +9,11 @@ import (
 )
 
 type Configuration struct {
-	Addrport string
+	Addrport   string // http address / port
+	WSAddrport string // Web socket address / port
+
 	Dir      string
-	NoDaemon   bool
+	NoDaemon bool
 	Fetch    bool
 	Cache    bool
 	Plugdir  string // Directory that contains plugin dirs
@@ -38,8 +40,11 @@ func init() {
 	flag.StringVar(&config.Plugdir, "plugdir", ".", "the dir to look for plugins")
 
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
+	flag.StringVar(&config.WSAddrport, "wsaddr", ":4434", "websocket address to listen on")
+
 	flag.BoolVar(&config.ListRoutes, "list-routes", false, "Walk the routes after they have been added")
 	flag.BoolVar(&config.ListPlugins, "list-plugins", false, "List the plugins we are using")
+
 	flag.BoolVar(&config.NoDaemon, "nodaemon", false, "run in background as a service")
 }
 

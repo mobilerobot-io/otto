@@ -52,7 +52,7 @@ func main() {
 	// Now we'll start the server if we have been configured to
 	// run in daemonic modez
 	if config.NoDaemon {
-		os.Exit(0) 
+		os.Exit(0)
 	}
 
 	log.Infoln("  otto is starting on ", server.Addr)

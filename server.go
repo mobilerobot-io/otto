@@ -28,6 +28,8 @@ func NewServer(addr string) (s *http.Server, r *mux.Router) {
 	r.HandleFunc("/", OttoHandler)
 	r.HandleFunc("/routes", routeHandler)
 	r.HandleFunc("/plugins", pluginHandler)
+	r.HandleFunc("/ws", serveWs)
+
 	return s, r
 }
 

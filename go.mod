@@ -13,6 +13,7 @@ require (
 	github.com/gocolly/colly v1.2.0
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gorilla/mux v1.7.1
+	github.com/gorilla/websocket v1.4.0
 	github.com/kennygrant/sanitize v1.2.4 // indirect
 	github.com/mattn/go-colorable v0.1.1 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
