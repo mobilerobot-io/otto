@@ -1,4 +1,4 @@
-# plugins ::= $(wildcard $(dir $(wildcard */*.so)))
+plugins := $(wildcard $(dir $(wildcard */*.so)))
 
 build:
 	go build -v

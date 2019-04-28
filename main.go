@@ -51,11 +51,13 @@ func main() {
 
 	// Now we'll start the server if we have been configured to
 	// run in daemonic modez
-	if config.Daemon {
-		log.Infoln("  otto is starting on ", server.Addr)
-		err := server.ListenAndServe()
-		log.Fatal(err)
+	if config.NoDaemon {
+		os.Exit(0) 
 	}
+
+	log.Infoln("  otto is starting on ", server.Addr)
+	err := server.ListenAndServe()
+	log.Fatal(err)
 }
 
 func check(err error) {
