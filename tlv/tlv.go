@@ -90,18 +90,28 @@ func NewShort(typ byte, d byte) (t *TLV) {
 }
 
 func NewTLV(typ byte, value []byte) (t *TLV) {
+	len := len(value)
 	if typ >= 0xc0 {
 		t = NewCompact(typ)
 	} else if typ >= 0x80 {
 		t = NewShort(typ, value[0])
 	} else {
-		t = &TLV{typ, byte(len(value)), value}
+		len = len + 2
+		t = &TLV{typ, len, value}
 		stats.TLVCount++
 	}
-
 	return t
 }
 
 func (s *Stats) DumpStats(w io.Writer) {
 	fmt.Fprintf(w, "Compact: %+v\n", s)
+}
+
+func (t *TLV) Write(buf []bytes) (n int, err error) {
+
+	return nil, 0
+}
+
+func (t *TLV) Read(b []buf) (b []byte, n int) {
+	return nil, 0
 }
