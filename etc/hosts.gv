@@ -1,0 +1,15 @@
+network "local" {
+	rpi4 -- e1024 ;
+	rpi3 -- e1024 ;
+	tp01 -- e1024 ;
+
+	rpi4 -- 7inTS;
+	rpi3 -- Uno;
+	Uno -- AFMC -- { m1, m2, m3, m4 };
+
+	tp01 -- { wSnotGobbler, wThunderMonkey };
+	tp02 -- { wMobileRobot, wJunkYard };
+
+	eth1024 -- tp-link-01 -- Gateway -- Spectrum -- I;
+	
+}

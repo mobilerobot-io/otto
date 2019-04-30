@@ -1,0 +1,4 @@
+host, ip, mac, iface, description
+rpi4, 10.24.2.12, b8:27:eb:ca:88:1b, eth0
+rpi4, , b8:27:eb:9f:dd:4e, wlan0, camera+rf+arduino-eth
+rpi3, 10.24.2.13, , eth0, lcd7-
