@@ -2,3 +2,5 @@ host, ip, mac, iface, description
 rpi4, 10.24.2.12, b8:27:eb:ca:88:1b, eth0
 rpi4, , b8:27:eb:9f:dd:4e, wlan0, camera+rf+arduino-eth
 rpi3, 10.24.2.13, , eth0, lcd7-
+rpi2, 10.24.2.24, b8:27:eb:81:c8:c6, AFMC:Actobot4x4:Camera
+rpi2, , b8:27:eb:d4:9d:3e, same as above
