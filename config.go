@@ -8,9 +8,18 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+type MQTTConfiguration struct {
+	MQTTAddr     string // the address and port for the MQTT broker
+	MQTTTopic    string
+	MQTTUsername string
+	MQTTPassword string
+}
+
 type Configuration struct {
 	Addrport   string // http address / port
 	WSAddrport string // Web socket address / port
+
+	MQTTConfiguration
 
 	Dir      string
 	NoDaemon bool
@@ -41,6 +50,11 @@ func init() {
 
 	flag.StringVar(&config.Addrport, "addr", ":4433", "address and port to listen on")
 	flag.StringVar(&config.WSAddrport, "wsaddr", ":4434", "websocket address to listen on")
+
+	flag.StringVar(&config.MQTTAddr, "mqttaddr", "10.24.0.112:1883", "address of MQTT broker")
+	flag.StringVar(&config.MQTTTopic, "mqttSubjects", "sensors/#", "mqtt subject to listen to")
+	flag.StringVar(&config.MQTTUsername, "mqtt-user", "", "username for mqtt broker")
+	flag.StringVar(&config.MQTTPassword, "mqtt-password", "", "password for mqtt broker")
 
 	flag.BoolVar(&config.ListRoutes, "routes", false, "Walk the routes after they have been added")
 	flag.BoolVar(&config.ListPlugins, "plugins", false, "List the plugins we are using")

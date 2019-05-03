@@ -94,8 +94,12 @@ func internalError(ws *websocket.Conn, msg string, err error) {
 	ws.WriteMessage(websocket.TextMessage, []byte("Internal server error."))
 }
 
+// upgrader is used to transform the HTTP request socket to create a real
+// socket for bidirectional semi-unstructured (without HTTP overhead)
+// communication.
 var upgrader = websocket.Upgrader{}
 
+// serveWS will honor a websocket request
 func serveWs(w http.ResponseWriter, r *http.Request) {
 	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	ws, err := upgrader.Upgrade(w, r, nil)

@@ -59,10 +59,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	// Open up the MQTT client
-	//mqtt_init()
-	//mqtt_subscribe("joy")
-	mqtt_run()
+	go mqtt_run()
 
 	// Listen for and handler HTTP HTML, REST and Websocket requests
 	log.Infoln("  otto is starting on ", server.Addr)
