@@ -28,7 +28,8 @@ func main() {
 	flag.Parse()
 
 	// Create the server along with the router, our plugins will register with
-	// the router.
+	// the router.  This will cause all of our builtin REST commands to be
+	// registered and our Websocket handler will be created.
 	server, router = NewServer(config.Addrport)
 
 	// Now we will load up our plugins
@@ -58,6 +59,12 @@ func main() {
 		os.Exit(0)
 	}
 
+	// Open up the MQTT client
+	//mqtt_init()
+	//mqtt_subscribe("joy")
+	mqtt_run()
+
+	// Listen for and handler HTTP HTML, REST and Websocket requests
 	log.Infoln("  otto is starting on ", server.Addr)
 	err := server.ListenAndServe()
 	log.Fatal(err)
