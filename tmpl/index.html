@@ -29,7 +29,7 @@
 
 	<div class="container-fluid">
 	    <div class="row">
-	    <div class="col-md-6">
+	    <div class="col-md-4">
 		<div class="card">
 		    <div class="card-body">
 			<h4 class="card-title">Door 1</h4>
@@ -42,7 +42,20 @@
 		</div>
 	    </div>
 
-	    <div class="col-md-6">
+	    <div class="col-md-4">
+		<div class="card">
+		    <div class="card-body">
+			<div class="card-title">
+			    <h4>WebSocket Message</h4>
+			</div>
+			<div class="card-text">
+			    <div id="output"></div>
+			</div>
+		    </div>
+		</div>
+	    </div>
+
+	    <div class="col-md-4">
 		<div class="card">
 		    <div class="card-body">
 			<h4 class="card-title">Door 2</h4>
@@ -62,6 +75,59 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+	<script language="javascript" type="text/javascript">
+
+	 //var wsUri = "wss://echo.websocket.org/";
+	 var wsUri = "ws://localhost:4433/ws";
+	 var output;
+
+	 function init() {
+	     output = document.getElementById("output");
+	     testWebSocket();
+	 }
+
+	 function testWebSocket() {
+	     websocket = new WebSocket(wsUri);
+	     websocket.onopen = function(evt) { onOpen(evt) };
+	     websocket.onclose = function(evt) { onClose(evt) };
+	     websocket.onmessage = function(evt) { onMessage(evt) };
+	     websocket.onerror = function(evt) { onError(evt) };
+	 }
+
+	 function onOpen(evt) {
+	     writeToScreen("CONNECTED");
+	     doSend("WebSocket rocks");
+	 }
+	 
+	 function onClose(evt) {
+	     writeToScreen("DISCONNECTED");
+	 }
+	 
+	 function onMessage(evt) {
+	     writeToScreen('<span style="color: blue;">RESPONSE: ' + evt.data+'</span>');
+	     websocket.close();
+	 }
+	 
+	 function onError(evt) {
+	     writeToScreen('<span style="color: red;">ERROR:</span> ' + evt.data);
+	 }
+	 
+	 function doSend(message) {
+	     writeToScreen("SENT: " + message);
+	     websocket.send(message);
+	 }
+	 
+	 function writeToScreen(message) {
+	     var pre = document.createElement("p");
+	     pre.style.wordWrap = "break-word";
+	     pre.innerHTML = message;
+	     output.appendChild(pre);
+	 }
+	 
+	 window.addEventListener("load", init, false);
+
+	</script>
     </body>
 </html>
 

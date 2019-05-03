@@ -6,14 +6,12 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"io"
-	"log"
 	"net/http"
-	"os"
 	"time"
 
 	"github.com/gorilla/websocket"
+	log "github.com/sirupsen/logrus"
 )
 
 var (
@@ -99,68 +97,86 @@ func internalError(ws *websocket.Conn, msg string, err error) {
 var upgrader = websocket.Upgrader{}
 
 func serveWs(w http.ResponseWriter, r *http.Request) {
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
 	ws, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println("upgrade:", err)
 		return
 	}
-
 	defer ws.Close()
 
-	outr, outw, err := os.Pipe()
-	if err != nil {
-		internalError(ws, "stdout:", err)
-		return
-	}
-	defer outr.Close()
-	defer outw.Close()
-
-	inr, inw, err := os.Pipe()
-	if err != nil {
-		internalError(ws, "stdin:", err)
-		return
-	}
-	defer inr.Close()
-	defer inw.Close()
-
-	proc, err := os.StartProcess(cmdPath, flag.Args(), &os.ProcAttr{
-		Files: []*os.File{inr, outw, outw},
-	})
-	if err != nil {
-		internalError(ws, "start:", err)
-		return
-	}
-
-	inr.Close()
-	outw.Close()
-
-	stdoutDone := make(chan struct{})
-	go pumpStdout(ws, outr, stdoutDone)
-	go ping(ws, stdoutDone)
-
-	pumpStdin(ws, inw)
-
-	// Some commands will exit when stdin is closed.
-	inw.Close()
-
-	// Other commands need a bonk on the head.
-	if err := proc.Signal(os.Interrupt); err != nil {
-		log.Println("inter:", err)
-	}
-
-	select {
-	case <-stdoutDone:
-	case <-time.After(time.Second):
-		// A bigger bonk on the head.
-		if err := proc.Signal(os.Kill); err != nil {
-			log.Println("term:", err)
+	for {
+		mt, message, err := ws.ReadMessage()
+		if err != nil {
+			log.Println("read:", err)
+			break
 		}
-		<-stdoutDone
+		log.Printf("recv: %s", message)
+		err = ws.WriteMessage(mt, message)
+		if err != nil {
+			log.Println("write:", err)
+			break
+		}
 	}
 
-	if _, err := proc.Wait(); err != nil {
-		log.Println("wait:", err)
-	}
+	/*
+		log.Debugln("serveWS has entered the building")
+
+		outr, outw, err := os.Pipe()
+		if err != nil {
+			internalError(ws, "stdout:", err)
+			return
+		}
+		defer outr.Close()
+		defer outw.Close()
+
+		inr, inw, err := os.Pipe()
+		if err != nil {
+			internalError(ws, "stdin:", err)
+			return
+		}
+		defer inr.Close()
+		defer inw.Close()
+
+		proc, err := os.StartProcess(cmdPath, flag.Args(), &os.ProcAttr{
+			Files: []*os.File{inr, outw, outw},
+		})
+		if err != nil {
+			internalError(ws, "start:", err)
+			return
+		}
+
+		inr.Close()
+		outw.Close()
+
+		stdoutDone := make(chan struct{})
+		go pumpStdout(ws, outr, stdoutDone)
+		go ping(ws, stdoutDone)
+
+		pumpStdin(ws, inw)
+
+		// Some commands will exit when stdin is closed.
+		inw.Close()
+
+		// Other commands need a bonk on the head.
+		if err := proc.Signal(os.Interrupt); err != nil {
+			log.Println("inter:", err)
+		}
+
+		select {
+		case <-stdoutDone:
+		case <-time.After(time.Second):
+			// A bigger bonk on the head.
+			if err := proc.Signal(os.Kill); err != nil {
+				log.Println("term:", err)
+			}
+			<-stdoutDone
+		}
+
+		if _, err := proc.Wait(); err != nil {
+			log.Println("wait:", err)
+		}
+	*/
 }
 
 /*

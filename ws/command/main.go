@@ -167,7 +167,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 
 func serveHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		http.Error(w, "Not found", http.StatusNotFound)
+		http.Error(w, "WS Not found", http.StatusNotFound)
 		return
 	}
 	if r.Method != "GET" {
