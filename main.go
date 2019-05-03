@@ -36,8 +36,9 @@ func main() {
 
 	// list the plugins is a command line arg requests so
 	if config.ListPlugins {
+		log.Infoln("Plugins available ")
 		for n, _ := range ottoPlugins {
-			log.Infoln(n)
+			log.Infoln("\t" + n)
 		}
 	}
 

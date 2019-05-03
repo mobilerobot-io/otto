@@ -12,8 +12,8 @@ pi:
 	env GOOS=linux GOARCH=arm GOARM=5 go build -v
 	$(MAKE) -C plugins pi
 
-run:
-	make run -v main.go
+run: otto
+	./otto ${OFLAGS}
 
 status:
 	@echo "All good with OttO"

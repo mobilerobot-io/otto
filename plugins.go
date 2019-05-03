@@ -14,7 +14,7 @@ type OttoPlugin struct {
 	Name   string
 	Path   string
 	Dir    string
-	Loaded bool
+	Active bool
 }
 
 var (
@@ -32,7 +32,7 @@ func NewPlugin(p string) OttoPlugin {
 		Path:   p,
 		Name:   name,
 		Dir:    dir,
-		Loaded: false,
+		Active: false,
 	}
 	ottoPlugins[name] = op
 	return op
@@ -42,7 +42,7 @@ func loadPlugins(dir string) {
 	var p []string
 	var err error
 
-	log.Debugln("Loading Plugins")
+	log.Infoln("Loading Plugins from dir: " + dir)
 	if dir == "" {
 		dir = "."
 	}
@@ -52,9 +52,8 @@ func loadPlugins(dir string) {
 	p, err = filepath.Glob(dir + "/plugins/*/*.so")
 	check(err)
 
-	log.Debugln("Plugins...")
 	for _, pl := range p {
-		log.Debugln("\t", pl)
+		log.Infoln("\t", pl)
 		NewPlugin(pl)
 	}
 }
@@ -93,12 +92,15 @@ func activatePlugin(fname string, r *mux.Router) {
 	// Now register our plugin by passing the newly created
 	// subrouter to the new plugin's Register(*mux.Router) function
 	regf.(func(string, *mux.Router))(name, sub)
-	ottoPlugins[name] = OttoPlugin{
-		Name:   name,
-		Loaded: true,
-		Path:   fname,
+	op, ex := ottoPlugins[name]
+	if !ex {
+		ottoPlugins[name] = OttoPlugin{
+			Name:   name,
+			Active: true,
+			Path:   fname,
+		}
+		op = ottoPlugins[name]
 	}
-	op := ottoPlugins[name]
-	op.Loaded = true
-	log.Infoln("  subroutes have been registered ", p.Path)
+	op.Active = true
+	log.Info("\tplug %s activated", name)
 }
