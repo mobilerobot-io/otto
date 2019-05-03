@@ -1,6 +1,9 @@
-host, ip, mac, iface, description
-rpi4, 10.24.2.12, b8:27:eb:ca:88:1b, eth0
-rpi4, , b8:27:eb:9f:dd:4e, wlan0, camera+rf+arduino-eth
-rpi3, 10.24.2.13, , eth0, lcd7-
-rpi2, 10.24.2.24, b8:27:eb:81:c8:c6, AFMC:Actobot4x4:Camera
-rpi2, , b8:27:eb:d4:9d:3e, same as above
+host, ip, mac, wlan, mac2, description
+,,,,,
+rpi1, 10.24.0.129, b8:27:eb:3c:f0:b5, ts3
+rpi2, 10.24.2.24, b8:27:eb:81:c8:c6,, b8:27:eb:d4:9d:3e, AFMC:Actobot4x4:Camera
+rpi3, 10.24.2.13, ,,,, ts7
+rpi4, 10.24.2.12, b8:27:eb:ca:88:1b,, b8:27:eb:9f:dd:4e, camera+rf+arduino-eth
+rpi5, 10.24.0.112, b8:27:eb:74:5b:3c,, b8:27:eb:21:0e:69, mqtt:redis:nginx
+,,,,,
+
