@@ -32,7 +32,9 @@ func main() {
 	server, router = NewServer(config.Addrport)
 
 	// Now we will load up our plugins
-	loadPlugins(router, config.Plugdir)
+	loadPlugins(config.Plugdir)
+
+	// list the plugins is a command line arg requests so
 	if config.ListPlugins {
 		for n, _ := range ottoPlugins {
 			log.Infoln(n)

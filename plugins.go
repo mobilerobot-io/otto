@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"path/filepath"
 	"plugin"
 
@@ -14,6 +13,7 @@ import (
 type OttoPlugin struct {
 	Name   string
 	Path   string
+	Dir    string
 	Loaded bool
 }
 
@@ -28,17 +28,17 @@ func init() {
 func NewPlugin(p string) OttoPlugin {
 	dir, file := filepath.Split(p)
 	name := filepath.Base(file)
-	fmt.Printf("input: %q\n\tdir: %q\n\tfile: %q\n", p, dir, filepath.Base(file))
 	op := OttoPlugin{
 		Path:   p,
 		Name:   name,
+		Dir:    dir,
 		Loaded: false,
 	}
 	ottoPlugins[name] = op
 	return op
 }
 
-func loadPlugins(r *mux.Router, dir string) {
+func loadPlugins(dir string) {
 	var p []string
 	var err error
 
@@ -46,7 +46,10 @@ func loadPlugins(r *mux.Router, dir string) {
 	if dir == "" {
 		dir = "."
 	}
-	p, err = filepath.Glob(dir + "plugins/**/*.so")
+
+	// TODO add a check for the same directory and one below
+	// for deployment scenarios
+	p, err = filepath.Glob(dir + "/plugins/*/*.so")
 	check(err)
 
 	log.Debugln("Plugins...")
