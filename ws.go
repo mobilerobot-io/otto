@@ -89,6 +89,7 @@ func ping(ws *websocket.Conn, done chan struct{}) {
 	}
 }
 
+// Shit happens.
 func internalError(ws *websocket.Conn, msg string, err error) {
 	log.Println(msg, err)
 	ws.WriteMessage(websocket.TextMessage, []byte("Internal server error."))
