@@ -21,8 +21,15 @@ type MQTTConfiguration struct {
 // of the topics we are subscribed to.
 func onMessageReceived(client mqtt.Client, message mqtt.Message) {
 	msg := message.Payload()
-	log.Infof("Message ~ topic %s ~ %s\n", message.Topic(), msg)
+	topic := message.Topic()
+	log.Infof("Message ~ topic %s ~ %s\n", topic, msg)
 
+	switch topic {
+	case "mot":
+		serial_send(s, msg)
+	default:
+		log.Errorf("MQTT Do not know how to handle ", topic)
+	}
 }
 
 // mqtt subscribes and responds to the channels we are interested in

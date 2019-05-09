@@ -14,8 +14,17 @@ type SerialConfiguration struct {
 }
 
 var (
+	s      *serial.Port
 	msgnum int
 )
+
+func serial_send(s *serial.Port, cmd []byte) {
+	n, err := s.Write(cmd) //fmt.Fprint(s, cmd)
+	if err != nil {
+		log.Errorf("failed to write to serial port")
+	}
+	log.Infof("serial sent %d bytes", n)
+}
 
 func send_cmd(s *serial.Port, r, l int) {
 	msgnum += 1
@@ -35,25 +44,23 @@ func serial_service() {
 		log.Errorln("Exiting serial service")
 	}()
 
-	// XXX TODO: Make the serial
+	var err error
 	c := &serial.Config{Name: config.SerialPort, Baud: 115200}
-	s, err := serial.OpenPort(c)
+	s, err = serial.OpenPort(c)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var i int
 	buf := make([]byte, 128)
 	for true {
+
+		log.Println("Waiting to read from serial")
 		n, err := s.Read(buf)
 		if err != nil {
 			log.Fatal(err)
 		}
-		i++
-		if i%10 == 0 {
-			log.Printf("sending data 150 150  ")
-			send_cmd(s, 0, 0)
-		}
+
+		log.Printf("  read [%d] => %s\n", n, string(buf))
 		log.Printf("%q", buf[:n])
 	}
 
