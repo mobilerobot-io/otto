@@ -102,5 +102,5 @@ func activatePlugin(fname string, r *mux.Router) {
 		op = ottoPlugins[name]
 	}
 	op.Active = true
-	log.Info("\tplug %s activated", name)
+	log.Infof("\tplug %s activated", name)
 }

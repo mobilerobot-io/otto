@@ -24,6 +24,7 @@ require (
 	github.com/mobilerobot-io/otto v0.0.0-20190409180902-f561102b2ca1
 	github.com/saintfish/chardet v0.0.0-20120816061221-3af4cd4741ca // indirect
 	github.com/sirupsen/logrus v1.4.1
+	github.com/tarm/serial v0.0.0-20180830185346-98f6abe2eb07
 	github.com/temoto/robotstxt v0.0.0-20180810133444-97ee4a9ee6ea // indirect
 	golang.org/x/net v0.0.0-20190503192946-f4e77d36d62c // indirect
 	golang.org/x/oauth2 v0.0.0-20190402181905-9f3314589c9a

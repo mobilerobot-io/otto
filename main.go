@@ -4,6 +4,7 @@ import (
 	"flag"
 	"net/http"
 	"os"
+	"sync"
 
 	"github.com/gorilla/mux"
 	log "github.com/sirupsen/logrus"
@@ -14,6 +15,8 @@ var (
 	config Configuration
 	server *http.Server
 	router *mux.Router
+
+	wg sync.WaitGroup
 )
 
 func init() {
@@ -49,17 +52,22 @@ func main() {
 	}
 
 	if config.ListRoutes {
-		log.Println("Registered routes: ")
+		log.Infoln("Registered routes: ")
 		WalkRoutes(router, os.Stdout, os.Stderr)
 	}
 
 	// Now we'll start the server if we have been configured to
 	// run in daemonic modez
-	if config.NoDaemon {
+	if config.NoService {
 		os.Exit(0)
 	}
 
-	go mqtt_run()
+	//go mqtt_run()
+	//go serial_run()
+
+	wg.Add(2)
+	go mqtt_service()
+	go serial_service()
 
 	// Listen for and handler HTTP HTML, REST and Websocket requests
 	log.Infoln("  otto is starting on ", server.Addr)

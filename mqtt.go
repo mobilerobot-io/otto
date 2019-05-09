@@ -6,33 +6,40 @@ import (
 	"os"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
+	log "github.com/sirupsen/logrus"
 )
 
-func onMessageReceived(client mqtt.Client, message mqtt.Message) {
-	fmt.Printf("Message ~ topic %s ~ %s\n", message.Topic(), message.Payload())
-
-	// Now we need to write this message to the websocket channel, letting the
-	// websocket pick it up and run with it.
+// MQTTConfiguration allows us to comment to the approriate MQTT channel(s)
+type MQTTConfiguration struct {
+	MQTTAddr     string // the address and port for the MQTT broker
+	MQTTTopic    string
+	MQTTUsername string
+	MQTTPassword string
 }
 
-func mqtt_run() {
+// onMessageReceived is called for every message the arrives under one
+// of the topics we are subscribed to.
+func onMessageReceived(client mqtt.Client, message mqtt.Message) {
+	msg := message.Payload()
+	log.Infof("Message ~ topic %s ~ %s\n", message.Topic(), msg)
+
+}
+
+// mqtt subscribes and responds to the channels we are interested in
+func mqtt_service() {
+	// wg is a global
+	defer func() {
+		wg.Done()
+		log.Errorln("Exiting MQTT service")
+	}()
+
 	//MQTT.DEBUG = log.New(os.Stdout, "", 0)
 	//MQTT.ERROR = log.New(os.Stdout, "", 0)
+
 	c := make(chan os.Signal, 1)
 	//signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 
 	hostname, _ := os.Hostname()
-
-	/*
-		server := flag.String("server", config.MQTTAddr, "The full url of the MQTT server to connect to ex: tcp://127.0.0.1:1883")
-		topic := flag.String("topic", "#", "Topic to subscribe to")
-		qos := flag.Int("qos", 0, "The QoS to subscribe to messages at")
-		clientid := flag.String("clientid", hostname+strconv.Itoa(time.Now().Second()), "A clientid for the connection")
-		username := flag.String("username", "", "A username to authenticate to the MQTT server")
-		password := flag.String("password", "", "Password to match username")
-		flag.Parse()
-	*/
-
 	connOpts := mqtt.NewClientOptions()
 	connOpts.AddBroker(config.MQTTAddr)
 	connOpts.SetClientID("otto-" + hostname)
@@ -57,8 +64,7 @@ func mqtt_run() {
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	} else {
-		fmt.Printf("Connected to %s\n", *server)
+		fmt.Printf("Connected to %s\n", server.Addr)
 	}
-
 	<-c
 }
