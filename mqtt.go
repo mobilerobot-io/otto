@@ -2,7 +2,6 @@ package main
 
 import (
 	"crypto/tls"
-	"fmt"
 	"os"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
@@ -24,9 +23,19 @@ func onMessageReceived(client mqtt.Client, message mqtt.Message) {
 	topic := message.Topic()
 	log.Infof("Message ~ topic %s ~ %s\n", topic, msg)
 
+	var err error
 	switch topic {
 	case "mot":
-		serial_send(s, msg)
+		if Serial == nil {
+			Serial, err = GetSerialPort(config.SerialPort)
+			if err != nil {
+				log.Errorf("error getting serial port %s ~> %v", config.SerialPort, err)
+				return
+			}
+		}
+		if err = Serial.Send(string(msg)); err != nil {
+			log.Errorf("Error sending motor msg %v", err)
+		}
 	default:
 		log.Errorf("MQTT Do not know how to handle ", topic)
 	}
@@ -42,6 +51,7 @@ func mqtt_service() {
 
 	//MQTT.DEBUG = log.New(os.Stdout, "", 0)
 	//MQTT.ERROR = log.New(os.Stdout, "", 0)
+	log.Println("Start MQTT client service")
 
 	c := make(chan os.Signal, 1)
 	//signal.Notify(c, os.Interrupt, syscall.SIGTERM)
@@ -71,7 +81,7 @@ func mqtt_service() {
 	if token := client.Connect(); token.Wait() && token.Error() != nil {
 		panic(token.Error())
 	} else {
-		fmt.Printf("Connected to %s\n", server.Addr)
+		log.Infof("Connected to %s\n", server.Addr)
 	}
 	<-c
 }

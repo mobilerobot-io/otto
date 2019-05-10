@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	log "github.com/sirupsen/logrus"
 
 	"github.com/tarm/serial"
@@ -13,55 +11,78 @@ type SerialConfiguration struct {
 	SerialSpeed int
 }
 
-var (
-	s      *serial.Port
+type SerialPort struct {
+	*serial.Port
 	msgnum int
+	err    error
+
+	incoming int
+	outgoing int
+
+	listen bool
+}
+
+var (
+	msgnum  int
+	portmap map[string]*SerialPort
 )
 
-func serial_send(s *serial.Port, cmd []byte) {
-	n, err := s.Write(cmd) //fmt.Fprint(s, cmd)
-	if err != nil {
-		log.Errorf("failed to write to serial port")
-	}
-	log.Infof("serial sent %d bytes", n)
+func init() {
+	portmap = make(map[string]*SerialPort, 5)
 }
 
-func send_cmd(s *serial.Port, r, l int) {
-	msgnum += 1
-	n, err := fmt.Fprintf(s, "m:%d:%d:%d", msgnum, r, l)
-	if err != nil {
-		panic(err)
+func GetSerialPort(name string) (s *SerialPort, err error) {
+	var ex bool
+
+	if s, ex = portmap[name]; ex {
+		return s, nil
 	}
-	log.Printf("wrote %d bytes\n", n)
-	s.Flush()
-}
 
-// serial_run starts an io process on the serial port
-func serial_service() {
-	// weight group (wg) is a global variable
-	defer func() {
-		wg.Done()
-		log.Errorln("Exiting serial service")
-	}()
-
-	var err error
 	c := &serial.Config{Name: config.SerialPort, Baud: 115200}
-	s, err = serial.OpenPort(c)
+	s = &SerialPort{}
+	s.Port, err = serial.OpenPort(c)
 	if err != nil {
-		log.Fatal(err)
+		log.Errorf("failed to open port %s ~> %v", name, err)
+		return nil, err
 	}
+	portmap[name] = s
+	log.Infof("starting port %s", name)
+	return s, nil
+}
+
+// Send a message on the serial port
+func (s *SerialPort) Send(msg string) (err error) {
+	n, err := s.Write([]byte(msg))
+	if err != nil {
+		log.Errorf("serial port send failed %v", err)
+		return err
+	}
+	log.Info("serial port sent %d bytes", n)
+	return nil
+}
+
+// Listen for incoming data on the serial port
+func (s *SerialPort) Listen() (err error) {
 
 	buf := make([]byte, 128)
-	for true {
+	for s.listen {
 
-		log.Println("Waiting to read from serial")
+		log.Debugln("Waiting to read from serial")
 		n, err := s.Read(buf)
 		if err != nil {
 			log.Fatal(err)
+			return err
 		}
 
-		log.Printf("  read [%d] => %s\n", n, string(buf))
-		log.Printf("%q", buf[:n])
-	}
+		log.Infoln("incoming buffer send to incoming message channel")
+		Incoming(string(buf))
 
+		log.Debugf("  read [%d] => %s", n, string(buf))
+		log.Debugf("  %q", buf[:n])
+	}
+	return nil
+}
+
+func (s *SerialPort) Close() {
+	s.Port.Close()
 }

@@ -2,8 +2,9 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/url"
+
+	log "github.com/sirupsen/logrus"
 )
 
 // Message is represented by a URL, but passed around micro services as
@@ -14,12 +15,13 @@ type Message struct {
 	err     error
 }
 
+// Turn this into an channel
 func Incoming(m string) {
-	url, err := url.ParseQuery(`l=200&r=200`)
+	url, err := url.ParseQuery(m)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(toJSON(url))
+	log.Infof("incoming message %s ~> %+v", m, url)
 }
 
 func toJSON(msg interface{}) string {

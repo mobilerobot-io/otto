@@ -15,6 +15,7 @@ var (
 	config Configuration
 	server *http.Server
 	router *mux.Router
+	Serial *SerialPort
 
 	wg sync.WaitGroup
 )
@@ -65,14 +66,30 @@ func main() {
 	//go mqtt_run()
 	//go serial_run()
 
-	wg.Add(2)
-	go mqtt_service()
-	go serial_service()
+	Serial, err := GetSerialPort(config.SerialPort)
+	check(err)
 
-	// Listen for and handler HTTP HTML, REST and Websocket requests
-	log.Infoln("  otto is starting on ", server.Addr)
-	err := server.ListenAndServe()
-	log.Fatal(err)
+	wg.Add(3)
+	go func() {
+		defer wg.Done()
+		Serial.Listen()
+	}()
+
+	go func() {
+		defer wg.Done()
+		mqtt_service()
+	}()
+
+	go func() {
+		// Listen for and handler HTTP HTML, REST and Websocket requests
+		log.Infoln("  otto is starting on ", server.Addr)
+		defer wg.Done()
+		err := server.ListenAndServe()
+		log.Error(err)
+	}()
+
+	wg.Wait()
+	log.Info("Otto is exiting")
 }
 
 func check(err error) {
