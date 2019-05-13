@@ -76,7 +76,7 @@ func activatePlugin(fname string, r *mux.Router) {
 	// Determine the name and path for the new subroute
 	name := *n.(*string)
 	url := "/" + name
-	if name == "static" || name == "clowdops.net" {
+	if name == "root" {
 		url = "/"
 	}
 	log.Infof("   name %s path %s url %s ", name, p.Path, url)

@@ -32,7 +32,8 @@ var (
 func init() {
 	portmap = make(map[string]*SerialPort, 5)
 
-	flag.StringVar(&config.SerialPort, "serial", "/dev/cu.usbserial-AI02RF10", "Name of the serial port")
+	//flag.StringVar(&config.SerialPort, "serial", "/dev/cu.usbserial-AI02RF10", "Name of the serial port")
+	flag.StringVar(&config.SerialPort, "serial", "", "Name of the serial port")
 	flag.IntVar(&config.SerialSpeed, "baud", 115200, "Default BaudRate for the serial port")
 }
 
