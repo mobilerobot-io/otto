@@ -1,10 +1,12 @@
-# TODO: pi fails to make
-build: periph.so
+src = periph.so
+plugin = periph.so
 
-%.so: %.go
+build: $(plugin)
+
+$(plugin): $(src)
 	go build -v -buildmode=plugin
 
 pi:
 	env GOOS=linux GOARCH=arm GOARM=5 go build -v -buildmode=plugin
 
-.PHONEY: all build pi
+.PHONEY: all build pi $(plugin)

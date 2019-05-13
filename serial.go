@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+
 	log "github.com/sirupsen/logrus"
 
 	"github.com/tarm/serial"
@@ -29,6 +31,9 @@ var (
 
 func init() {
 	portmap = make(map[string]*SerialPort, 5)
+
+	flag.StringVar(&config.SerialPort, "serial", "/dev/cu.usbserial-AI02RF10", "Name of the serial port")
+	flag.IntVar(&config.SerialSpeed, "baud", 115200, "Default BaudRate for the serial port")
 }
 
 func GetSerialPort(name string) (s *SerialPort, err error) {

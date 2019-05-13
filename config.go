@@ -53,9 +53,6 @@ func init() {
 	flag.StringVar(&config.MQTTUsername, "mqtt-user", "", "username for mqtt broker")
 	flag.StringVar(&config.MQTTPassword, "mqtt-password", "", "password for mqtt broker")
 
-	flag.StringVar(&config.SerialPort, "serial", "/dev/cu.usbserial-AI02RF10", "Name of the serial port")
-	flag.IntVar(&config.SerialSpeed, "baud", 115200, "Default BaudRate for the serial port")
-
 	flag.BoolVar(&config.ListRoutes, "routes", false, "Walk the routes after they have been added")
 	flag.BoolVar(&config.ListPlugins, "plugins", false, "List the plugins we are using")
 

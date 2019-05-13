@@ -63,17 +63,18 @@ func main() {
 		os.Exit(0)
 	}
 
-	//go mqtt_run()
-	//go serial_run()
+	// configure and start listening to the serial port if
+	// it has been configured
+	if config.SerialPort != "" {
+		Serial, err := GetSerialPort(config.SerialPort)
+		check(err)
 
-	Serial, err := GetSerialPort(config.SerialPort)
-	check(err)
-
-	wg.Add(3)
-	go func() {
-		defer wg.Done()
-		Serial.Listen()
-	}()
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			Serial.Listen()
+		}()
+	}
 
 	go func() {
 		defer wg.Done()

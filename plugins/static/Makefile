@@ -1,11 +1,12 @@
-all: build 
+src = static.so
+plugin = static.so
 
-build: static.so
+build: $(plugin)
 
-%.so : %.go 
+$(plugin): $(src)
 	go build -v -buildmode=plugin
 
 pi:
 	env GOOS=linux GOARCH=arm GOARM=5 go build -v -buildmode=plugin
 
-.PHONEY: all build pi
+.PHONEY: all build pi $(plugin)

@@ -1,9 +1,12 @@
-plugins := $(wildcard $(dir $(wildcard */*.so)))
+plugins := echo dork periph static store wally wsgi
 
 all: $(plugins)
 
 $(plugins):
 	$(MAKE) -C $< $@
+
+%.so : %.go
+	$(MAKE) -C $<
 
 status:
 	@echo $(plugins)
